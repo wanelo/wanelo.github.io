@@ -10,7 +10,7 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title>Building Wanelo</title>
+    <title></title>
   </head>
 
   <body>
@@ -18,8 +18,10 @@
       <div class="inner">
 
         <header>
-          <h2><a href="/">Building Wanelo</a> is an engineering blog by the team that built Wanelo</h2>
-          <h1>Building Wanelo</h1>
+          
+          <h1><a href="/">Building Wanelo</a></h1>
+          <h2>is an engineering blog of all things Wanelo</h2>
+          
         </header>
         <section id="main_content">
 
@@ -31,6 +33,79 @@
 <hr>
 
 <ul>
+  
+    <li>
+      <a href="/2014/01/27/a-brief-history-of-sprout-wrap.html">A Brief History of Sprout Wrap</a> <span class="date">Monday, 27 Jan 2014</span><br /><br />
+        <blockquote><p>When Wanelo gets a brand new workstation the first thing we install on it is Sprout. Sprout is a collection of OS X-specific recipes that allow you to install common utilities and applications that every Ruby developer has and will appreciate.</p>
+
+</blockquote>
+        <br />
+    </li>
+  
+    <li>
+      <a href="/2013/12/18/just-enough-client-side-tracking.html">Just enough client-side error tracking</a> <span class="date">Wednesday, 18 Dec 2013</span><br /><br />
+        <blockquote><p><span>Deploying at Wanelo tends to be high-frequency and low-stress, since we have most aspects of our systems performance graphed in real time. We can roll out new code to a percentage of app servers, monitor app server and db performance, check error rates, and then finish up the deploy.&nbsp;</span><br /><br /><span>However, there&rsquo;s one area where I&rsquo;ve always wanted better metrics: on the client side. In particular, I want better visibility into uncaught JavaScript exceptions. Client-side error tracking is a notoriously difficult problem -- browser extensions can throw errors, adding noise to your reports; issues may manifest only in certain browsers or with certain network conditions; exception messages tend to be generic, and line-numbers are unhelpful, since scripts are usually minified; data has to be captured and collected from users&rsquo; browsers and reported via http before a user navigates to a new page.</span> And on and on.<br /><br /><span>On the other hand, many sites are moving more and more functionality client-side these days, so it&rsquo;s becoming increasingly important to know when there are problems in the browser.</span>
+
+</blockquote>
+        <br />
+    </li>
+  
+    <li>
+      <a href="/2013/12/11/multi-process-or-multi-threaded-design-for-ruby-deamons.html">Multi-process or multi-threaded design for Ruby daemons? GIL to the rescue :)</a> <span class="date">Wednesday, 11 Dec 2013</span><br /><br />
+        <blockquote><p>MRI Ruby has a global interpreter lock (GIL), meaning that even when writing multi-threaded Ruby only a single thread is on-CPU at a point in time. Other distributions of Ruby have done away with the GIL, but even in MRI threads can be useful. The <a href="https://github.com/mperham/sidekiq">Sidekiq</a> background worker gem takes advantage of this, running multiple workers in separate threads within a single process.<br /> <br /> If the workload of a job blocks on I/O, Ruby can context-switch to other threads and do other work until the I/O finishes. This could happen when the workload reaches out to an external API, shells out to another command, or is accessing the file system.&nbsp;<br /> <br /> If the workload of a process does not block on I/O, it will not benefit from thread switching under a GIL, as it will be, instead, CPU-bound. In this case, multiple processes will be more efficient, and will be able to take better advantage of multi-core systems.<br /> <br /> So&hellip; why not skip threads and just deal with processes? A number of reasons.</p>
+
+</blockquote>
+        <br />
+    </li>
+  
+    <li>
+      <a href="/2013/10/18/heads-up-for-upcoming-webinar-with-joyent-on-manta.html">Quick heads-up on our upcoming webinar with Joyent on Manta</a> <span class="date">Friday, 18 Oct 2013</span><br /><br />
+        <blockquote><p>A few months back, one of our engineers <a href="http://wanelo.com/atasay">Atasay Gokkaya</a>&nbsp;published a <a href="http://building.wanelo.com/post/54110156963/a-cost-effective-approach-to-scaling-event-based-data">fantastic overview</a> of how we at Wanelo use <a href="http://joyent.com">Joyent's</a> new innovative object store <a href="http://www.joyent.com/products/manta">Manta</a> for a massively parallelized user retention analysis, using just a few lines of basic UNIX commands in combination with map/reduce paradigm. &nbsp;</p>
+
+</blockquote>
+        <br />
+    </li>
+  
+    <li>
+      <a href="/2013/08/05/detangling-business-logic-in-rails-apps-with-poro-events-and-observers.html">Detangling Business Logic in Rails Apps with PORO Events and Observers</a> <span class="date">Monday, 05 Aug 2013</span><br /><br />
+        <blockquote><p>With any Rails app that evolves along with substantial user growth and active feature development, pretty soon a moment comes when there appears to be a decent amount of tangled logic, AKA "technical debt."</p>
+
+</blockquote>
+        <br />
+    </li>
+  
+    <li>
+      <a href="/2013/07/23/really-really-deleting-smf-service-instances-on-illumnos-and-smartos.html">Really Really Really Deleting SMF Service Instances on Illumos</a> <span class="date">Tuesday, 23 Jul 2013</span><br /><br />
+        <blockquote><p>We recently ran into a tricky situation with a custom SMF service we maintain on our Joyent SmartOS hosts. &nbsp;The namespace for the service instance (defined in upstream code) had changed, which meant that as our Chef automation upgraded the service instances to the latest code, we ended up with a lot of duplicate service instances that each had a unique namespace.</p>
+
+</blockquote>
+        <br />
+    </li>
+  
+    <li>
+      <a href="/2013/06/28/a-cost-effective-approach-to-scaling-event-based-data-collection-and-analysis.html">A Cost-effective Approach to Scaling Event-based Data Collection and Analysis</a> <span class="date">Friday, 28 Jun 2013</span><br /><br />
+        <blockquote><p>With millions of people now using Wanelo across various platforms, collecting and analyzing user actions and events becomes a pretty fun problem to solve. While in most services user actions generate some aggregated records in database systems and keeping those actions non-aggregated is not explicitly required for the product itself, it is critical for other reasons such as user history, behavioral analytics, spam detection and ad hoc querying.</p>
+
+</blockquote>
+        <br />
+    </li>
+  
+    <li>
+      <a href="/2013/05/25/scaling-wanelo-100x-in-six-months.html">Scaling Wanelo 100x in Six Months</a> <span class="date">Saturday, 25 May 2013</span><br /><br />
+        <blockquote><p>We recently gave a talk at the SFRoR Meetup here in San Francisco about how we scaled this rails app to 200K RPM in six months. There were a lot of excellent questions at the meetup, and so we decided to put the slides up on SlideShare.</p>
+
+</blockquote>
+        <br />
+    </li>
+  
+    <li>
+      <a href="/2013/02/13/high-read-write-performance-postgres-on-joyent-cloud.html">High Read/Write Performance PostgreSQL 9.2 and Joyent Cloud</a> <span class="date">Wednesday, 13 Feb 2013</span><br /><br />
+        <blockquote><p>At Wanelo we are pretty ardent fans of PostgreSQL database server, but try not to be dogmatic about it.&nbsp;</p>
+<p>I have personally used PostgreSQL since version 7.4, dating back to some time in 2003 or 4. I was always impressed with how easy it was to get PostgreSQL installed on a UNIX system, how quick it was to configure (only two config files to edit), and how simple it was to create and authenticate users.</p>
+
+</blockquote>
+        <br />
+    </li>
   
     <li>
       <a href="/2013/02/06/how-alerts-can-tell-you-when-beyonce-is-on.html">How Alerts Can Tell You When Beyoncé Is On</a> <span class="date">Wednesday, 06 Feb 2013</span><br /><br />
@@ -59,11 +134,6 @@
     </li>
   
 </ul>
-
-
-<!--<a href="/2012/09/14/the-big-switch-how-we-rebuilt-wanelo-from-scratch-and-lived-to-tell-about-it.html">-->
-    <!--The Big Switch How We Rebuilt Wanelo from Scratch and Lived to Tell About It-->
-<!--</a>-->
 
 
 

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>A Brief History of Sprout Wrap</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          
+          <h2><a href="/">Building Wanelo</a> is an engineering blog by the team that built Wanelo</h2>
+          <hr>
+          <h1>A Brief History of Sprout Wrap</h1>
+          
+        </header>
+        <section id="main_content">
+
+
+<p>When Wanelo gets a brand new workstation the first thing we install on it is Sprout. Sprout is a collection of OS X-specific recipes that allow you to install common utilities and applications that every Ruby developer has and will appreciate.</p>
+
+
+<p>Anyone who has worked at Pivotal Labs would feel comfortable with the workstations that spawn from&nbsp;<code>sprout-wrap</code>, because they&rsquo;ve probably worked on one before. Sprout is based on&nbsp;<a href="https://github.com/mkocher/soloist">chef-soloist</a>&nbsp;that allows a developer to run a set of chef recipes from their local machine. Recipes have been built for applications like Chrome, RubyMine and iTerm. Other common OS X settings &mdash; ones that are changed on&nbsp;<em>every</em>&nbsp;new workstation &mdash; can be switched, including turning SSH on, changing the default keyboard repeat rate, installing sane git aliases, rbenv and bash completion.</p>
+<p>You can automatically clone git repositories into your&nbsp;<code>~/workspace&nbsp;</code>directory. You can install PostgreSQL, ImageMagick, node, Dropbox, PhantomJS, GitX, Caffeine and Heroku Toolbelt. If you&rsquo;ve found a utility useful in a development setting, or flipped a switch somewhere in System Preferences, a recipe probably exists in one of Sprout&rsquo;s cookbooks.</p>
+<h2 id="so_who_is_this_useful_for">So who is the useful for?</h2>
+<p>We at Wanelo have grown considerably in the last few months I&rsquo;ve been there. We&rsquo;ve hired four new people. That&rsquo;s two pairing stations that two pairs would normally have to set up. Instead, we took the time to set up a<code>soloistrc</code>&nbsp;file &mdash; the file where you specify which recipes to run.</p>
+<p>Here&rsquo;s a snippet from a standard&nbsp;<code>soloistrc</code>&nbsp;file:</p>
+<pre><code># development (rails)
+- pivotal_workstation::rbenv
+- pivotal_workstation::gem_setup
+- pivotal_workstation::postgres
+- sprout-osx-apps::imagemagick
+- sprout-osx-apps::node_js
+- sprout-osx-apps::qt
+
+# apps
+- sprout-osx-apps::skype
+- sprout-osx-apps::chrome
+- sprout-osx-apps::textmate
+- sprout-osx-apps::1password
+- sprout-osx-apps::hub
+- sprout-osx-apps::phantomjs
+- sprout-osx-apps::gitx
+- sprout-osx-apps::propane</code></pre>
+<p>Running&nbsp;<code>bundle exec soloist</code>&nbsp;inside the proper directory will ensure all applications are installed. After unboxing new workstations (or formatting the out-of-date ones) a full run of sprout-wrap takes about two and a half hours. Subsequently, each run takes about 3 minutes.</p>
+<h2 id="customize">Customize!</h2>
+<p>At Wanelo we wrote a recipe that runs&nbsp;<code>bundle install</code>&nbsp;and sets up our development database. It gets our Ruby web application to a state where we can run&nbsp;<code>foreman start</code>&nbsp;on a brand new machine. We also wrote a recipe that installs our VPN on our machines. The most recent recipe we wrote installs our favorite vim plugins, configurations and theme.</p>
+<h2 id="we_have_reached_convergence">We have reached convergence</h2>
+<p>Sprout-wrap has the benefit of following chef&rsquo;s principles and requires recipes to be idempotent. So when a developer includes the recipes that, for instance, installs&nbsp;<code>cowsay</code>, going forward each workstation will now have cowsay. Which means every developer is happy to work on any workstation. Because, hey, now you have cowsay on every workstation.</p>
+<pre><code>&lt; Moo. &gt;
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||</code></pre>
+<p>Sprout enables us as pairing developers to build a stable cluster of similar machines where there are minimal development bottlenecks. Having someone who is familiar and can set up sprout-wrap on your machines is hugely valuable for a growing organization, and can save hours, likely&nbsp;<em>days, </em>of developers' time.</p>
+<p>You can learn and find instructions on how to set up and install sprout on <a href="https://github.com/pivotal-sprout/sprout-wrap">GitHub</a>.</p>
+<p>-<a href="http://wanelo.com/james">James</a></p>
+
+
+        </section>
+
+        <footer>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-10456646-13', 'wanelo.github.io');
+          ga('send', 'pageview');
+
+        </script>
+
+      </div>
+    </div>
+  </body>
+</html>
+
