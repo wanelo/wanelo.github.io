@@ -15,7 +15,8 @@ title: Detangling Business Logic in Rails Apps with PORO Events and Observers
 </ol>
 <p><span><em>These are all concerns that are independent of one another, but happen when a user registers. </em>Some of these actions happen&nbsp;immediately, some even within a single transaction, and some asynchronously (in another thread, or in a background job).</span></p>
 <p>This topic has been given a lot of discussion on <a href="https://gist.github.com/justinko/2838490" target="_blank">this famous thread</a>, where even <a href="http://david.heinemeierhansson.com/" target="_blank">DHH</a> chimed in. We'll use the example discussed in that thread, and the version that DHH presented (slightly compacted) below. Basically, a controller that's creating a comment and then performing a bunch of related actions, such as posting to Twitter and Facebook, or running it through a spam check.</p>
-<pre class="brush:ruby">class PostsController
+{% highlight ruby %}
+class PostsController
   def create
     @entry = current_user.entries.find(params[:id])
     return head(:bad_request) if SpamChecker.spammy?(params[:post][:body])
@@ -34,7 +35,7 @@ title: Detangling Business Logic in Rails Apps with PORO Events and Observers
     end
   end
 end
-</pre>
+{% endhighlight %}
 <p>In this blog post we'll examine an event-based approach to decoupling this business logic, a method that's been pretty successful within the Wanelo codebase thus far.</p>
 <p>[[MORE]]</p>
 <p><strong>Simple World</strong></p>
@@ -51,7 +52,8 @@ end
 <p><strong>Ventable to the Rescue</strong></p>
 <p>Enter <a href="https://github.com/kigster/ventable" target="_blank">Ventable</a>: a very simple plain Ruby gem that implements the Observer pattern in a slightly more flexible way, and provides convenient configuration DSL that makes connecting events to interested observers (or listeners) declarative. This "connecting" logic goes into your Rails initializer folder, and provides a nice "map" of what happens when important business events happen.</p>
 <p>Here is an example of how things might be&nbsp;<em>connected</em> in your application based on the previous example:</p>
-<pre class="brush:ruby">require 'ventable'
+{% highlight ruby %}
+require 'ventable'
 class CommentCreatedEvent
   include Ventable::Event
   attr_accessor :user, :comment
@@ -100,7 +102,7 @@ class PostsController
     CommentCreatedEvent.new(current_user, @comment).fire!
   end
 end
-</pre>
+{% endhighlight %}
 <p><span>There is a lot going on above, but it's also pretty obvious what's happening -- another power of this eventing approach. First we are defining a <code>CommentCreatedEvent</code> class, to wrap <code>user</code> and <code>comment</code> instances, and then we configure this event using the DSL to notify several observers (which in this case are all ruby classes). We can now use generic FacebookService and TwitterService (which could encapsulate multiple Twitter and Facebook operations; a plus in my book), which all have a callback method, called by the eventing gem upon firing the event.</span></p>
 <p><strong>Diving Deeper</strong></p>
 <p><span>In Wanelo code base, we currently have 30 distinct events, which are all fired at various points throughout the lifecycle of our application. Some events are fired in web request, some during background jobs. Currently Ventable dispatch mechanism only supports in-process ruby observers, but it would not be difficult to extend it to support a queueing mechanism, such as RabbitMQ.</span></p>
@@ -111,7 +113,8 @@ end
 <li><span>It automatically subscribes each concrete event (ie, a subclass of base) to metrics module, which transmits a UDP packet to our statsd metrics aggregator, for each of the 30 events in our app</span></li>
 </ul>
 <p>Let's take a look at what this looks like:</p>
-<pre class="brush:ruby">module Wanelo
+{% highlight ruby %}
+module Wanelo
   module Event
     class Base
       class &lt;&lt; self
@@ -141,9 +144,10 @@ end
     end
   end
 end
-</pre>
+{% endhighlight %}
 <p>By defining the <code>transaction</code> group and binding it to the proc, we are able to use <code>inside:</code> option when configuring events, such as so:</p>
-<pre class="brush:ruby">Wanelo::Event::ProductSave.configure do
+{% highlight ruby %}
+Wanelo::Event::ProductSave.configure do
   notifies Product,
            SaveNotification,
            SaveAction,
@@ -152,7 +156,7 @@ end
   notifies ProductSaveWorker,
            ResaveEmailWorker
 end
-</pre>
+{% endhighlight %}
 <p>Ventable calls all observers in the order defined in the configuration. The first four observers are called inside the transaction block, while the last two are called after the transaction had already committed.</p>
 <p><strong>Pros and Cons</strong></p>
 <p><em>Advantages</em></p>

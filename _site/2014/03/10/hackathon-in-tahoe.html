@@ -10,7 +10,7 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title>Really Really Really Deleting SMF Service Instances on Illumos</title>
+    <title>Lake Tahoe is Perfect for fun, skiing, and... hackathons :)</title>
   </head>
 
   <body>
@@ -21,26 +21,25 @@
           
           <h2 class="post-head"><a href="/">Building Wanelo</a></h2>
           <hr>
-          <h1>Really Really Really Deleting SMF Service Instances on Illumos</h1>
+          <h1>Lake Tahoe is Perfect for fun, skiing, and... hackathons :)</h1>
           
         </header>
         <section id="main_content">
 
 
-<p>We recently ran into a tricky situation with a custom SMF service we maintain on our Joyent SmartOS hosts. &nbsp;The namespace for the service instance (defined in upstream code) had changed, which meant that as our Chef automation upgraded the service instances to the latest code, we ended up with a lot of duplicate service instances that each had a unique namespace.</p>
+<p><img src="http://localhost:4000/assets/tahoe_pano.jpg" alt="Awesome Hackathon" />
+This week entire Wanelo crew packed up and went up to Tahoe City, a small town on the
+shore of beautiful Lake Tahoe. We’ve done a hackathon before, but never outside of
+our main office HQ in San Francisco.</p>
 
+<p>On Sunday after dinner everyone pitched their ideas and tried to get a team assembled
+to work on a project. There have been a total of 19 project submissions, and given that
+we have 15 engineers, I would call this a huge success.</p>
 
-<p>After wrestling with the best way to batch delete/reinstall the service (using Chef's <em>knife</em> cli), we found a way to improve our old process.</p>
-<p>Normally, we would delete services with something like <em>svccfg delete &lt;service_name&gt;</em>, but this doesn't work well if you need to delete a number of services, especially if they have similar namespaces. &nbsp;Further, we found that running this in a loop against the output of <em>svcs -a -H | grep &lt;service_name&gt;</em>&nbsp;wasn't effective because service configurations could linger even after the service instance had been deleted.</p>
-<p><span>Digging into <em>man svccfg</em>, we came up with a way to enumerate services and service configurations more cleanly with <em>svccfg</em>:</span></p>
-<pre>for service in $(svccfg list | grep nad); do
-  sudo svcadm disable -s $service
-done
+<p>Tomorrow evening we’ll have demos and presentations, with prizes and celebration,
+which I am very much looking forward to. Stay tuned for some amazing results :)</p>
 
-for instance in $(svccfg list | grep nad); do
-  sudo svccfg delete $instance
-done</pre>
-<p><a href="http://wanelo.com/bixu" target="_blank"><span>Blake</span></a></p>
+<p>– <a href="http://wanelo.com/kig" title="Konstantin on Wanelo">Konstantin</a></p>
 
 
         </section>

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/monokai_syntax.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print" />
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -40,26 +40,26 @@
 </ol>
 <p><span><em>These are all concerns that are independent of one another, but happen when a user registers. </em>Some of these actions happen&nbsp;immediately, some even within a single transaction, and some asynchronously (in another thread, or in a background job).</span></p>
 <p>This topic has been given a lot of discussion on <a href="https://gist.github.com/justinko/2838490" target="_blank">this famous thread</a>, where even <a href="http://david.heinemeierhansson.com/" target="_blank">DHH</a> chimed in. We'll use the example discussed in that thread, and the version that DHH presented (slightly compacted) below. Basically, a controller that's creating a comment and then performing a bunch of related actions, such as posting to Twitter and Facebook, or running it through a spam check.</p>
-<pre class="brush:ruby">class PostsController
-  def create
-    @entry = current_user.entries.find(params[:id])
-    return head(:bad_request) if SpamChecker.spammy?(params[:post][:body])
+<div class="highlight"><pre><code class="ruby"><span class="k">class</span> <span class="nc">PostsController</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@entry</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">entries</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">head</span><span class="p">(</span><span class="ss">:bad_request</span><span class="p">)</span> <span class="k">if</span> <span class="no">SpamChecker</span><span class="o">.</span><span class="n">spammy?</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:post</span><span class="o">][</span><span class="ss">:body</span><span class="o">]</span><span class="p">)</span>
 
-    @comment = @entry.comments.
-                      create!(params[:post].
-                        permit(:title, :body).
-                        merge(author: current_user))
-    Notifications.new_comment(@comment).deliver
-    if @comment.share_on_twitter?
-      TwitterPoster.new(current_user, @comment.body).post
-    end
-    if @comment.share_on_facebook?
-      FacebookPoster.new(current_user, @comment.body).
-         action(:comment)
-    end
-  end
-end
-</pre>
+    <span class="vi">@comment</span> <span class="o">=</span> <span class="vi">@entry</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span>
+                      <span class="n">create!</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:post</span><span class="o">].</span>
+                        <span class="n">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">)</span><span class="o">.</span>
+                        <span class="n">merge</span><span class="p">(</span><span class="ss">author</span><span class="p">:</span> <span class="n">current_user</span><span class="p">))</span>
+    <span class="no">Notifications</span><span class="o">.</span><span class="n">new_comment</span><span class="p">(</span><span class="vi">@comment</span><span class="p">)</span><span class="o">.</span><span class="n">deliver</span>
+    <span class="k">if</span> <span class="vi">@comment</span><span class="o">.</span><span class="n">share_on_twitter?</span>
+      <span class="no">TwitterPoster</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">,</span> <span class="vi">@comment</span><span class="o">.</span><span class="n">body</span><span class="p">)</span><span class="o">.</span><span class="n">post</span>
+    <span class="k">end</span>
+    <span class="k">if</span> <span class="vi">@comment</span><span class="o">.</span><span class="n">share_on_facebook?</span>
+      <span class="no">FacebookPoster</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">,</span> <span class="vi">@comment</span><span class="o">.</span><span class="n">body</span><span class="p">)</span><span class="o">.</span>
+         <span class="n">action</span><span class="p">(</span><span class="ss">:comment</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
 <p>In this blog post we'll examine an event-based approach to decoupling this business logic, a method that's been pretty successful within the Wanelo codebase thus far.</p>
 <p>[[MORE]]</p>
 <p><strong>Simple World</strong></p>
@@ -76,56 +76,56 @@ end
 <p><strong>Ventable to the Rescue</strong></p>
 <p>Enter <a href="https://github.com/kigster/ventable" target="_blank">Ventable</a>: a very simple plain Ruby gem that implements the Observer pattern in a slightly more flexible way, and provides convenient configuration DSL that makes connecting events to interested observers (or listeners) declarative. This "connecting" logic goes into your Rails initializer folder, and provides a nice "map" of what happens when important business events happen.</p>
 <p>Here is an example of how things might be&nbsp;<em>connected</em> in your application based on the previous example:</p>
-<pre class="brush:ruby">require 'ventable'
-class CommentCreatedEvent
-  include Ventable::Event
-  attr_accessor :user, :comment
-  def initialize(user, comment)
-    @user = user
-    @comment = comment
-  end
-end
-# config/event_initializer.rb
-CommentCreatedEvent.configure do
-  notifies Notifications,
-           TwitterService,
-           FacebookService,
-           SpamChecker
-end
+<div class="highlight"><pre><code class="ruby"><span class="nb">require</span> <span class="s1">&#39;ventable&#39;</span>
+<span class="k">class</span> <span class="nc">CommentCreatedEvent</span>
+  <span class="kp">include</span> <span class="no">Ventable</span><span class="o">::</span><span class="no">Event</span>
+  <span class="kp">attr_accessor</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">:comment</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">comment</span><span class="p">)</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="n">user</span>
+    <span class="vi">@comment</span> <span class="o">=</span> <span class="n">comment</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="c1"># config/event_initializer.rb</span>
+<span class="no">CommentCreatedEvent</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span>
+  <span class="n">notifies</span> <span class="no">Notifications</span><span class="p">,</span>
+           <span class="no">TwitterService</span><span class="p">,</span>
+           <span class="no">FacebookService</span><span class="p">,</span>
+           <span class="no">SpamChecker</span>
+<span class="k">end</span>
 
-# lib somewhere
-class TwitterService
-  # implementation skipped...
-  def self.handle_comment_created event
-    if event.comment.share_on_twitter?
-      self.new(event.user).post_comment(event.comment.body)
-    end
-  end
-end
+<span class="c1"># lib somewhere</span>
+<span class="k">class</span> <span class="nc">TwitterService</span>
+  <span class="c1"># implementation skipped...</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">handle_comment_created</span> <span class="n">event</span>
+    <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">share_on_twitter?</span>
+      <span class="nb">self</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">post_comment</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-class FacebookService
-  # implementation skipped...
-  def self.handle_comment_created event
-  if event.comment.share_on_facebook?
-    new(event.user).post_comment(event.comment.body)
-  end
-end
+<span class="k">class</span> <span class="nc">FacebookService</span>
+  <span class="c1"># implementation skipped...</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">handle_comment_created</span> <span class="n">event</span>
+  <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">share_on_facebook?</span>
+    <span class="kp">new</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">post_comment</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">comment</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-# SpamChecker skipped for brevity
+<span class="c1"># SpamChecker skipped for brevity</span>
 
-# app/controllers/post_controller.rb
-class PostsController
-  def create
-    @entry = current_user.entries.find(params[:id])
-    @comment = @entry.comments.
-                 create!(params[:post].
-                 permit(:title, :body).
-                 merge(author: current_user))
+<span class="c1"># app/controllers/post_controller.rb</span>
+<span class="k">class</span> <span class="nc">PostsController</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@entry</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">entries</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+    <span class="vi">@comment</span> <span class="o">=</span> <span class="vi">@entry</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span>
+                 <span class="n">create!</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:post</span><span class="o">].</span>
+                 <span class="n">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">)</span><span class="o">.</span>
+                 <span class="n">merge</span><span class="p">(</span><span class="ss">author</span><span class="p">:</span> <span class="n">current_user</span><span class="p">))</span>
 
-    CommentCreatedEvent.new(current_user, @comment).fire!
-  end
-end
-</pre>
+    <span class="no">CommentCreatedEvent</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">,</span> <span class="vi">@comment</span><span class="p">)</span><span class="o">.</span><span class="n">fire!</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
 <p><span>There is a lot going on above, but it's also pretty obvious what's happening -- another power of this eventing approach. First we are defining a <code>CommentCreatedEvent</code> class, to wrap <code>user</code> and <code>comment</code> instances, and then we configure this event using the DSL to notify several observers (which in this case are all ruby classes). We can now use generic FacebookService and TwitterService (which could encapsulate multiple Twitter and Facebook operations; a plus in my book), which all have a callback method, called by the eventing gem upon firing the event.</span></p>
 <p><strong>Diving Deeper</strong></p>
 <p><span>In Wanelo code base, we currently have 30 distinct events, which are all fired at various points throughout the lifecycle of our application. Some events are fired in web request, some during background jobs. Currently Ventable dispatch mechanism only supports in-process ruby observers, but it would not be difficult to extend it to support a queueing mechanism, such as RabbitMQ.</span></p>
@@ -136,48 +136,48 @@ end
 <li><span>It automatically subscribes each concrete event (ie, a subclass of base) to metrics module, which transmits a UDP packet to our statsd metrics aggregator, for each of the 30 events in our app</span></li>
 </ul>
 <p>Let's take a look at what this looks like:</p>
-<pre class="brush:ruby">module Wanelo
-  module Event
-    class Base
-      class &lt;&lt; self
-        def transaction
-          @transaction ||= -&gt;(b) {
-            ActiveRecord::Base.transaction do
-              b.call
-            end
-          }
-        end
+<div class="highlight"><pre><code class="ruby"><span class="k">module</span> <span class="nn">Wanelo</span>
+  <span class="k">module</span> <span class="nn">Event</span>
+    <span class="k">class</span> <span class="nc">Base</span>
+      <span class="k">class</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="nb">self</span>
+        <span class="k">def</span> <span class="nf">transaction</span>
+          <span class="vi">@transaction</span> <span class="o">||=</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;(</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+            <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+              <span class="n">b</span><span class="o">.</span><span class="n">call</span>
+            <span class="k">end</span>
+          <span class="p">}</span>
+        <span class="k">end</span>
 
-        def metrics
-          @metrics ||= Wanelo::Metrics.instance \
-            if defined?(Wanelo::Metrics)
-        end
-      end
+        <span class="k">def</span> <span class="nf">metrics</span>
+          <span class="vi">@metrics</span> <span class="o">||=</span> <span class="no">Wanelo</span><span class="o">::</span><span class="no">Metrics</span><span class="o">.</span><span class="n">instance</span> <span class="p">\</span>
+            <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="no">Wanelo</span><span class="o">::</span><span class="no">Metrics</span><span class="p">)</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
 
-      def self.inherited(klass)
-        klass.instance_eval do
-          include Ventable::Event
-          group :transaction, &amp;Wanelo::Event::Base.transaction
+      <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">inherited</span><span class="p">(</span><span class="n">klass</span><span class="p">)</span>
+        <span class="n">klass</span><span class="o">.</span><span class="n">instance_eval</span> <span class="k">do</span>
+          <span class="kp">include</span> <span class="no">Ventable</span><span class="o">::</span><span class="no">Event</span>
+          <span class="n">group</span> <span class="ss">:transaction</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="no">Wanelo</span><span class="o">::</span><span class="no">Event</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">transaction</span>
 
-          # Always notify statsd
-          notifies -&gt;(event) { self.metrics.handle_event(event) }
-        end
-      end
-    end
-  end
-end
-</pre>
+          <span class="c1"># Always notify statsd</span>
+          <span class="n">notifies</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;(</span><span class="n">event</span><span class="p">)</span> <span class="p">{</span> <span class="nb">self</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">handle_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span> <span class="p">}</span>
+        <span class="k">end</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
 <p>By defining the <code>transaction</code> group and binding it to the proc, we are able to use <code>inside:</code> option when configuring events, such as so:</p>
-<pre class="brush:ruby">Wanelo::Event::ProductSave.configure do
-  notifies Product,
-           SaveNotification,
-           SaveAction,
-           inside: :transaction
+<div class="highlight"><pre><code class="ruby"><span class="no">Wanelo</span><span class="o">::</span><span class="no">Event</span><span class="o">::</span><span class="no">ProductSave</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span>
+  <span class="n">notifies</span> <span class="no">Product</span><span class="p">,</span>
+           <span class="no">SaveNotification</span><span class="p">,</span>
+           <span class="no">SaveAction</span><span class="p">,</span>
+           <span class="ss">inside</span><span class="p">:</span> <span class="ss">:transaction</span>
 
-  notifies ProductSaveWorker,
-           ResaveEmailWorker
-end
-</pre>
+  <span class="n">notifies</span> <span class="no">ProductSaveWorker</span><span class="p">,</span>
+           <span class="no">ResaveEmailWorker</span>
+<span class="k">end</span>
+</code></pre></div>
 <p>Ventable calls all observers in the order defined in the configuration. The first four observers are called inside the transaction block, while the last two are called after the transaction had already committed.</p>
 <p><strong>Pros and Cons</strong></p>
 <p><em>Advantages</em></p>

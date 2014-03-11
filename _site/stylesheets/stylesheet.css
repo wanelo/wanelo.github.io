@@ -116,6 +116,7 @@ p.sub-head {
 
 #container .inner img {
   max-width: 100%;
+  border: 1px solid #202020;
 }
 
 #downloads {
@@ -203,14 +204,14 @@ code {
 
 pre {
   padding: 20px;
-  background: #303030;
+  background: #272822;
   color: #f2f2f2;
   text-shadow: none;
   overflow: auto;
 }
 pre code {
   color: #f2f2f2;
-  background-color: #303030;
+  background-color: #272822;
   border: none;
   padding: 0;
 }
