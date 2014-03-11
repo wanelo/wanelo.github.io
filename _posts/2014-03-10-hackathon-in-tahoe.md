@@ -3,7 +3,7 @@ layout: default
 title: Lake Tahoe is Perfect for fun, skiing, and... hackathons :)
 ---
 
-![Awesome Hackathon]({{ site.url }}/assets/tahoe_pano.jpg)
+![Awesome Hackathon](/assets/tahoe_pano.jpg)
 This week entire Wanelo crew packed up and went up to Tahoe City, a small town on the
 shore of beautiful Lake Tahoe. We've done a hackathon before, but never outside of
 our main office HQ in San Francisco.
