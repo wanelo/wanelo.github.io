@@ -1,0 +1,14 @@
+---
+layout: default
+title: How Alerts Can Tell You When Beyoncé Is On
+---
+<p><img alt="image" src="http://media.tumblr.com/6ef51fbecc8a8ff8a1fa73932a06c52b/tumblr_inline_mhrkls8NoS1qz4rgp.jpg" /></p>
+<p>This past weekend a number of us were focused on a really important annual prime time television event (the <a href="http://animal.discovery.com/tv-shows/puppy-bowl" title="Puppy Bowl" target="_blank">Puppy Bowl</a>, of course). Turns out other people out there were watching some other sporting event, which leads to the rest of this story.</p>
+
+
+<p>At Wanelo we care a lot about the positive experience of our users, and central to a great user experience is a speedy site to use. While we track a plethora of metrics and use a number of alerting tools to ensure that we know when anything untoward is happening, lately we've grown enamored of <a href="http://circonus.com" title="Circonus" target="_blank">Circonus</a> and its ability to alert on derivatives -- the sort of thing that is extremely difficult if not impossible to do in <a href="http://www.nagios.org/">Nagios</a>.</p>
+<p>Super Bowl Sunday afternoon, we were unpleasantly surprised to receive an alert that the rate of product saves had suddenly dropped. Usually this foretells some disaster in the infrastructure, as the ability to post, save and resave products is one of the most critical aspects of Wanelo. Here's what we were seeing:</p>
+<p><img alt="image" src="http://media.tumblr.com/66b180648d72508b83a2a03c1880273c/tumblr_inline_mhpng8Pzvh1qz4rgp.png" /></p>
+<p>That big dip in the middle was the cause of our alerts.</p>
+<p>Checking the site and our other monitors, everything seemed to be working correctly. Yesterday morning we realized that this timing aligns perfectly with events at the Super Bowl. Our alerts went off the when the <a href="http://www.philstar.com/entertainment/2013/02/04/904823/video-beyonce-halftime-show-everyones-talking-about">halftime show</a> began, followed by a steep incline <a href="http://www.washingtonpost.com/sports/super-bowl-cause-of-power-outage-still-a-mystery-investigation-begins/2013/02/04/88d21fd2-6f14-11e2-8b8d-e0b59a1b8e2a_story.html">when the power went out at the stadium</a> and product saving ramped back up.</p>
+<p>-<a href="http://wanelo.com/sax">Eric</a></p>

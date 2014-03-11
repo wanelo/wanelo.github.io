@@ -8,5 +8,18 @@ title: Building Wanelo
 
 <hr>
 
-Curently under construction =)
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a> <span class="date">{{post.date |  date: "%A, %d %b %Y" }}</span><br /><br />
+        <blockquote>{{ post.excerpt }}</blockquote>
+        <br />
+    </li>
+  {% endfor %}
+</ul>
+
+
+<!--<a href="/2012/09/14/the-big-switch-how-we-rebuilt-wanelo-from-scratch-and-lived-to-tell-about-it.html">-->
+    <!--The Big Switch How We Rebuilt Wanelo from Scratch and Lived to Tell About It-->
+<!--</a>-->
 

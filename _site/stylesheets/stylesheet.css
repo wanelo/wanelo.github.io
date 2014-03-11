@@ -90,7 +90,7 @@ header h2 {
 }
 
 .inner {
-  width: 820px;
+  width: 80%;
   margin: 0 auto;
 }
 
@@ -197,6 +197,9 @@ ul, ol, dl {
   margin-bottom: 20px;
 }
 
+.date {
+    font-size: 11pt;
+}
 
 /* COMMON STYLES */
 
@@ -254,13 +257,13 @@ h2 {
 
 h3 {
   color: #d5000d;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 8px;
 } 
  
 h4 {
-  font-size: 16px;
+  font-size: 19px;
   color: #303030;
   font-weight: bold;
 } 
@@ -289,20 +292,21 @@ p a {
 }
 
 blockquote {
-  font-size: 1.6em;
   border-left: 10px solid #e9e9e9;
   margin-bottom: 20px;
   padding: 0 0 0 30px;
 }
 
+ul, ol {
+  margin-left: 30px;
+}
+
 ul li {
-  list-style: disc inside;
-  padding-left: 20px;
+  list-style: disc;
 }
 
 ol li {
-  list-style: decimal inside;
-  padding-left: 3px;
+  list-style: decimal;
 }
 
 dl dt {
