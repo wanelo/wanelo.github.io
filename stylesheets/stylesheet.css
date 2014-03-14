@@ -50,32 +50,38 @@ table {
 body {
   font-size: 1.3em;
   line-height: 1.5; 
-  background: #e7e7e7 url(../images/body-bg.png) 0 0 repeat;
-  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-  color: #6d6d6d;
+  background: #fafafa;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #424143;
 }
 
-a {
-  color: #d5000d;
+a, a:visited, a:focus, a:active {
+	color: #424143;
+	font-family: 'Helvetiva-Neue', Helvetica, Arial, sans-serif;
+	font-weight: bold;
 }
-a:hover {
-  color: #c5000c;
+
+#navbar {
+	height: 45px;
+	border-bottom: 1px solid #DDDDDD;
+	width: 100%;
+	background: #fff url(../images/Wanelo-logo.jpg) left 30px center no-repeat;
 }
+
 
 header {
-  padding-top: 35px;
-  padding-bottom: 25px;
+	width: 100%;
+	padding: 40px 0 20px 0;
+	overflow: hidden;
+	background: #fafafa no-repeat center center;
 }
 
 header h1 {
-  font-family: 'Chivo', 'Helvetica Neue', Helvetica, Arial, serif; font-weight: 900;
-  letter-spacing: -1px;
-  font-size: 48px;
-  color: #707070;
-  line-height: 1.2;
-  text-shadow: 2px 2px 2px rgba(0,0,0, 0.8);
-
+	font-family: 'Helvetiva-Neue-Bold', Helvetica, Arial, sans-serif;
+	font-size: 42px;
+	font-weight: bold;
+	line-height: 60px;
+	color: #424143;
 }
 
 header h2 {
@@ -88,24 +94,19 @@ header h2 {
 }
 
 header h2.post-head {
-    font-family: 'Chivo', 'Helvetica Neue', Helvetica, Arial, serif; font-weight: 900;
-    letter-spacing: -1px;
-    font-size: 36px;
-    color: #303030;
+    font-family: 'Helvetiva-Neue-Bold', Helvetica, Arial, sans-serif;
+    font-size: 28px;
     line-height: 1.2;
     text-align: right;
-    text-shadow: 2px 2px 2px rgba(0,0,0, 0.8);
 }
 
 p.sub-head {
     margin-top: 20px;
-    color: #606060;
-    font-weight: bold;
-
+    color: #424143;
 }
 
+
 #container {
-  background: transparent url(../images/highlight-bg.jpg) 50% 0 no-repeat;
   min-height: 595px;
 }
 
@@ -121,9 +122,22 @@ p.sub-head {
 
 #downloads {
   position: absolute;
-  top: 40px;
+  top: 60px;
   right: 10%;
 }
+
+ul#post-listing {
+	margin-left: 0;
+}
+
+ul#post-listing li {
+	list-style-type: none;
+	background-color: #FFF;
+	border: 1px solid #CCC;
+	padding: 20px 20px 0 20px;
+	margin-bottom: 20px;
+}
+
 
 a.button {
   -moz-border-radius: 30px;
@@ -232,7 +246,6 @@ hr {
   margin-top: 1em;
   padding-bottom: 1em;
   border: none;
-  background: transparent url('../images/hr.png') 50% 0 no-repeat;
 }
 
 strong {
@@ -316,9 +329,7 @@ p a {
 }
 
 blockquote {
-  border-left: 10px solid #e9e9e9;
   margin-bottom: 20px;
-  padding: 0 0 0 30px;
 }
 
 ul, ol {

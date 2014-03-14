@@ -15,16 +15,17 @@
 
   <body>
     <div id="container">
-      <div class="inner">
+		<div id="navbar"></div>
+	      <div class="inner">
 
-        <header>
-          
-          <h2 class="post-head"><a href="/">Building Wanelo</a></h2>
-          <hr>
-          <h1>Really Really Really Deleting SMF Service Instances on Illumos</h1>
-          
-        </header>
-        <section id="main_content">
+	        <header>
+	          
+	          <h2 class="post-head"><a href="/">Building Wanelo</a></h2>
+	          <hr>
+	          <h1>Really Really Really Deleting SMF Service Instances on Illumos</h1>
+	          
+	        </header>
+	        <section id="main_content">
 
 
 <p>We recently ran into a tricky situation with a custom SMF service we maintain on our Joyent SmartOS hosts. &nbsp;The namespace for the service instance (defined in upstream code) had changed, which meant that as our Chef automation upgraded the service instances to the latest code, we ended up with a lot of duplicate service instances that each had a unique namespace.</p>

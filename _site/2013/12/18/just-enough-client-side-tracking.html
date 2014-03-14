@@ -15,16 +15,17 @@
 
   <body>
     <div id="container">
-      <div class="inner">
+		<div id="navbar"></div>
+	      <div class="inner">
 
-        <header>
-          
-          <h2 class="post-head"><a href="/">Building Wanelo</a></h2>
-          <hr>
-          <h1>Just enough client-side error tracking</h1>
-          
-        </header>
-        <section id="main_content">
+	        <header>
+	          
+	          <h2 class="post-head"><a href="/">Building Wanelo</a></h2>
+	          <hr>
+	          <h1>Just enough client-side error tracking</h1>
+	          
+	        </header>
+	        <section id="main_content">
 
 
 <p><span>Deploying at Wanelo tends to be high-frequency and low-stress, since we have most aspects of our systems performance graphed in real time. We can roll out new code to a percentage of app servers, monitor app server and db performance, check error rates, and then finish up the deploy.&nbsp;</span><br /><br /><span>However, there&rsquo;s one area where I&rsquo;ve always wanted better metrics: on the client side. In particular, I want better visibility into uncaught JavaScript exceptions. Client-side error tracking is a notoriously difficult problem -- browser extensions can throw errors, adding noise to your reports; issues may manifest only in certain browsers or with certain network conditions; exception messages tend to be generic, and line-numbers are unhelpful, since scripts are usually minified; data has to be captured and collected from users&rsquo; browsers and reported via http before a user navigates to a new page.</span> And on and on.<br /><br /><span>On the other hand, many sites are moving more and more functionality client-side these days, so it&rsquo;s becoming increasingly important to know when there are problems in the browser.</span>

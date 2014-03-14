@@ -5,9 +5,7 @@ layout: default
   <a href="https://github.com/wanelo" id="view-on-github" class="button"><span>Wanelo on Github</span></a>
 </section>
 
-<hr>
-
-<ul>
+<ul id="post-listing">
   {% for post in site.posts %}
     <li>
       <a href="{{ post.url }}">{{ post.title }}</a> <span class="date">{{post.date |  date: "%A, %d %b %Y" }}</span><br /><br />

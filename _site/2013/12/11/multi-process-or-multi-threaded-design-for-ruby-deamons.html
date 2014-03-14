@@ -15,16 +15,17 @@
 
   <body>
     <div id="container">
-      <div class="inner">
+		<div id="navbar"></div>
+	      <div class="inner">
 
-        <header>
-          
-          <h2 class="post-head"><a href="/">Building Wanelo</a></h2>
-          <hr>
-          <h1>Multi-process or multi-threaded design for Ruby daemons? GIL to the rescue :)</h1>
-          
-        </header>
-        <section id="main_content">
+	        <header>
+	          
+	          <h2 class="post-head"><a href="/">Building Wanelo</a></h2>
+	          <hr>
+	          <h1>Multi-process or multi-threaded design for Ruby daemons? GIL to the rescue :)</h1>
+	          
+	        </header>
+	        <section id="main_content">
 
 
 <p>MRI Ruby has a global interpreter lock (GIL), meaning that even when writing multi-threaded Ruby only a single thread is on-CPU at a point in time. Other distributions of Ruby have done away with the GIL, but even in MRI threads can be useful. The <a href="https://github.com/mperham/sidekiq">Sidekiq</a> background worker gem takes advantage of this, running multiple workers in separate threads within a single process.<br /> <br /> If the workload of a job blocks on I/O, Ruby can context-switch to other threads and do other work until the I/O finishes. This could happen when the workload reaches out to an external API, shells out to another command, or is accessing the file system.&nbsp;<br /> <br /> If the workload of a process does not block on I/O, it will not benefit from thread switching under a GIL, as it will be, instead, CPU-bound. In this case, multiple processes will be more efficient, and will be able to take better advantage of multi-core systems.<br /> <br /> So&hellip; why not skip threads and just deal with processes? A number of reasons.</p>
