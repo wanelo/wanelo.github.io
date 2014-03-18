@@ -20,7 +20,7 @@ permalink:     date
 paginate_path: 'page:num'
 paginate:      nil
 
-markdown:      kramdown
+markdown:      redcarpet
 markdown_ext:  markdown,mkdown,mkdn,mkd,md
 textile_ext:   textile
 
@@ -47,7 +47,7 @@ rdiscount:
   extensions: []
 
 redcarpet:
-  extensions: []
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "strikethrough", "superscript"]
 
 kramdown:
   auto_ids: true
