@@ -378,6 +378,10 @@ footer a:hover {
     font-size: 11px !important;
 }
 
+.read-more {
+    font-size: 12px !important;
+}
+
 .clearfix {display: inline-block;}
 * html .clearfix {height: 1%;}
 .clearfix {display: block;}
