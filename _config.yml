@@ -34,6 +34,7 @@ port:        4000
 baseurl:     /
 url:         http://building.wanelo.com
 title:       Building Wanelo
+author:      Wanelo
 lsi:         false
 
 maruku:
