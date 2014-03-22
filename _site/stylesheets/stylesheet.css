@@ -56,7 +56,7 @@ body {
 }
 
 a, a:visited, a:focus, a:active {
-	color: #424143;
+	color: #37A5C0;
 	font-family: 'Helvetiva-Neue', Helvetica, Arial, sans-serif;
 	font-weight: bold;
 }
@@ -66,6 +66,7 @@ a, a:visited, a:focus, a:active {
 	border-bottom: 1px solid #DDDDDD;
 	width: 100%;
 	background: #fff url(../images/Wanelo-logo.jpg) left 30px center no-repeat;
+    cursor: pointer;
 }
 
 
@@ -373,6 +374,10 @@ footer a:hover {
   height: 0;
 }
 
+.slideshare-title {
+    font-size: 11px !important;
+}
+
 .clearfix {display: inline-block;}
 * html .clearfix {height: 1%;}
 .clearfix {display: block;}
@@ -409,3 +414,4 @@ footer a:hover {
 
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) {}
+
