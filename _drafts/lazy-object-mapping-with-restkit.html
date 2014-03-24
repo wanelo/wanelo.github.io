@@ -1,0 +1,40 @@
+---
+layout: default
+title: Lazy Object Mapping with RestKit
+---
+
+<p>
+    In Wanelo iOS Application, we use RestKit to consume RESTful APIs. It's one of the few libraries that we've been
+    able to use without any modications since the first version of Wanelo. In this post I'll explain how we used
+    Objective-C runtime to lazily map API response into Obj-C objects using RestKit's object mapping.
+</p>
+
+<h4>Problem</h4>
+<p>
+    While developing our internal API for Wanelo's native iOS & Android applications, our approach is to provide not
+    only the data they need for their current state but also for their possible future states. For example in trending
+    products view only product image is needed but the API also includes information about each product (e.g. price,
+    title) which is displayed only if the client navigates to the detail view of this product. The goal is to not keep
+    the user staring into an activity indicator and to reduce number of HTTP calls made which have an overhead
+    especially on mobile networks.
+</p>
+<p>
+    However this also meant that the application was blocking the user while it was mapping the information that
+    wouldn't be displayed immediately. Especially for large API responses this caused a significant delay. For
+    example mapping trending products API response on a iPhone 4s was taking more than 1 second.
+</p>
+
+<h4>Solution</h4>
+<p>
+    What we needed was a way to map only immediately needed fields of an object and map the rest of the fields only when they are
+    accessed.
+
+<!--{% highlight objective-c %}-->
+<!--@interface WProduct : NSObject <WMappableResource>-->
+<!--@property(strong, nonatomic) NSDate *created;-->
+<!--@property(strong, nonatomic) NSString *currency;-->
+<!--@end-->
+<!--{% endhighlight %}-->
+</p>
+
+<p>-<a href="http://wanelo.com/server" target="_blank">Server</a></p>
