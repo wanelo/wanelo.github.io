@@ -1,4 +1,4 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -11,8 +11,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
@@ -23,7 +23,7 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
@@ -48,24 +48,26 @@ table {
 
 /* LAYOUT STYLES */
 body {
-  font-size: 1.3em;
-  line-height: 1.5; 
+  font-size: 1.1em;
+  line-height: 1.5;
   background: #fafafa;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #424143;
 }
 
 a, a:visited, a:focus, a:active {
-	color: #37A5C0;
+	color: #1997d4;
 	font-family: 'Helvetiva-Neue', Helvetica, Arial, sans-serif;
 	font-weight: bold;
 }
+
+a:hover { text-decoration: underline;}
 
 #navbar {
 	height: 45px;
 	border-bottom: 1px solid #DDDDDD;
 	width: 100%;
-	background: #fff url(../images/Wanelo-logo.jpg) left 30px center no-repeat;
+	background: #fff url(../images/Wanelo-logo.jpg) left 190px center no-repeat;
     cursor: pointer;
 }
 
@@ -79,10 +81,11 @@ header {
 
 header h1 {
 	font-family: 'Helvetiva-Neue-Bold', Helvetica, Arial, sans-serif;
-	font-size: 42px;
+	font-size: 35px;
 	font-weight: bold;
 	line-height: 60px;
-	color: #424143;
+	color: #6d6b6e;
+    text-transform: capitalize;
 }
 
 header h2 {
@@ -92,18 +95,25 @@ header h2 {
   font-weight: normal;
   line-height: 1.3;
   margin-bottom: 30px;
+  color: #1a802c;
 }
 
 header h2.post-head {
     font-family: 'Helvetiva-Neue-Bold', Helvetica, Arial, sans-serif;
-    font-size: 28px;
-    line-height: 1.2;
+    font-size: 27px;
     text-align: right;
+    letter-spacing: 1px;
+    position: absolute;
+    top: 6px;
+    left: 40px;
+    text-transform: uppercase;
 }
 
 p.sub-head {
     margin-top: 20px;
     color: #424143;
+    font-size: 1.3em;
+    margin-bottom: 50px;
 }
 
 
@@ -139,10 +149,13 @@ ul#post-listing li {
 	margin-bottom: 20px;
 }
 
+ul#post-listing li h2 {
+    font-size: 1.4em;
+}
 
 a.button {
   -moz-border-radius: 30px;
-  -webkit-border-radius: 30px;                     
+  -webkit-border-radius: 30px;
   border-radius: 30px;
   border-top: solid 1px #cbcbcb;
   border-left: solid 1px #b7b7b7;
@@ -156,7 +169,7 @@ a.button {
   display: block;
   float: left;
   width: 179px;
-  margin-right: 14px;  
+  margin-right: 14px;
   background: #fdfdfd; /* Old browsers */
   background: -moz-linear-gradient(top,  #fdfdfd 0%, #f2f2f2 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfdfd), color-stop(100%,#f2f2f2)); /* Chrome,Safari4+ */
@@ -199,9 +212,15 @@ a.button span {
 #view-on-github span {
   background: transparent url(../images/octocat-icon.png) 12px 50% no-repeat;
 }
+
 #view-on-github {
   width: 200px;
-  margin-right: 0;
+  position: absolute;
+  top: -58px;
+  left: -200px;
+  display: block;
+  height: 23px;
+  padding: 8px;
 }
 
 code, pre {
@@ -236,7 +255,8 @@ ul, ol, dl {
 }
 
 .date {
-    font-size: 11pt;
+    font-size: 0.8em;
+    color: #81b48b;
 }
 
 /* COMMON STYLES */
@@ -268,14 +288,14 @@ th {
 
 td {
   border: 1px solid #ebebeb;
-  text-align: center; 
+  text-align: center;
   font-weight: 300;
 }
 
 form {
   background: #f2f2f2;
   padding: 20px;
-  
+
 }
 
 
@@ -283,7 +303,7 @@ form {
 
 h1 {
   font-size: 32px;
-} 
+}
 
 h2 {
   font-size: 22px;
@@ -298,29 +318,29 @@ h3 {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 8px;
-} 
- 
+}
+
 h4 {
   font-size: 19px;
   color: #303030;
   font-weight: bold;
-} 
+}
 
 h5 {
   font-size: 1em;
   color: #303030;
-} 
+}
 
 h6 {
   font-size: .8em;
   color: #303030;
-} 
+}
 
 p {
   font-weight: 300;
   margin-bottom: 20px;
 }
- 
+
 a {
   text-decoration: none;
 }
@@ -379,7 +399,7 @@ footer a:hover {
 }
 
 .read-more {
-    font-size: 12px !important;
+    font-size: 15px !important;
 }
 
 .clearfix {display: inline-block;}
@@ -410,6 +430,13 @@ footer a:hover {
   .inner {
     width: 94%;
     margin: 0 auto;
+  }
+  header h2.post-head {
+    left: 3%;
+  }
+  #navbar {
+    background: #fff url(../images/Wanelo-logo.jpg) left 160px center no-repeat;
+    cursor: pointer;
   }
 }
 

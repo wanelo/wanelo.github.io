@@ -24,7 +24,7 @@ markdown:      redcarpet
 markdown_ext:  markdown,mkdown,mkdn,mkd,md
 textile_ext:   textile
 
-excerpt_separator: "\n\n"
+excerpt_separator: "\n\n\n"
 
 safe:        false
 watch:       false    # deprecated

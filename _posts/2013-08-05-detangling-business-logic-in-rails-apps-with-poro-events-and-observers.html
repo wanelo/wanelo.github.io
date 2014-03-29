@@ -37,7 +37,8 @@ class PostsController
 end
 {% endhighlight %}
 <p>In this blog post we'll examine an event-based approach to decoupling this business logic, a method that's been pretty successful within the Wanelo codebase thus far.</p>
-<p>[[MORE]]</p>
+
+
 <p><strong>Simple World</strong></p>
 <p><span>In a small Rails application it might be </span>tempting to put this type of logic<em> directly on the controller</em><span>&nbsp;as DHH did above, but this approach, while simple and easy to understand, might make things a bit difficult as the application matures. For one, testing this action becomes a challenge: many unrelated services need to be stubbed out, and many permutations tested. What if a Twitter post succeeds, but a Facebook post doesn't? In other words, these concerns become "tightly coupled" inside the controller. And what if we want to also create comments from another place, perhaps an API controller? This certainly applied to our case at Wanelo.</span></p>
 <p><span>A possible solution could be to <em>split&nbsp;the logic into various methods on the ActiveRecord Comment model, and implement them as callbacks, </em>such as after_create. Unfortunately this approach suffers from similar problems: many of the above actions do not belong inside the model, and will only pollute it with tangled code and external dependencies. Why does the Comment model need to know about posting to Facebook or a spam checker? This certainly is a matter of taste, but experience shows that attaching this behavior directly onto the model does not work out well in the long run, as the model classes become bloated and full of external dependencies.</span></p>

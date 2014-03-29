@@ -1,17 +1,17 @@
 ---
 layout: default
 ---
-<section id="downloads">
-  <a href="https://github.com/wanelo" id="view-on-github" class="button"><span>Wanelo on Github</span></a>
-</section>
+
+<p class="sub-head">Welcome to the engineering blog of Wanelo, featuring technical tales of triumph, daring and woe. Sometimes cats. We are definitely hiring. Please email play AT wanelo.com if you're curious...</p>
 
 <ul id="post-listing">
   {% for post in site.posts %}
     <li>
-      <a href="{{ post.url }}">{{ post.title }}</a> <span class="date">{{post.date |  date: "%A, %d %b %Y" }}</span><br /><br />
+      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+        <span class="date">First posted on {{post.date |  date: "%A, %d %b %Y" }}</span><br /><br />
         <blockquote>
            {{ post.excerpt }}
-           <a class="read-more" href="{{ post.url }}">read more... </a>
+           <a class="read-more" href="{{ post.url }}"> &DoubleLongRightArrow; full post... </a>
         </blockquote>
 
         <br />

@@ -11,25 +11,23 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <script src="/javascripts/jquery-1.11.0.min.js" async="true"></script>
+    <script src="/javascripts/jquery-1.11.0.min.js"></script>
     <script src="/javascripts/main.js" async="true"></script>
     <title>{{page.title}}</title>
   </head>
 
   <body>
     <div id="container">
-		<div id="navbar" onlick="document.location='/';" style="width:100%"></div>
+		<div id="navbar">
+        <section id="downloads">
+          <a href="https://github.com/wanelo" id="view-on-github" class="button"><span>Wanelo on Github</span></a>
+        </section>
+		</div>
 	      <div class="inner">
-
 	        <header>
+              <h2 class="post-head"><a href="/">Building</a></h2>
 	          {% if page.title %}
-	          <h2 class="post-head"><a href="/">{{site.title}}</a></h2>
-	          <hr>
 	          <h1>{{page.title}}</h1>
-	          {% else %}
-	          <h1><a href="/">{{site.title}}</a></h1>
-	          <p class="sub-head">Welcome to the engineering blog of Wanelo, featuring technical tales of triumph, daring and woe. Sometimes cats. We are definitely hiring. Email play@wanelo.com if you're curious..</p>
-	          </h2>
 	          {% endif %}
 	        </header>
 	        <section id="main_content">

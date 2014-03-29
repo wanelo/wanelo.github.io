@@ -1,5 +1,7 @@
-
-$("#navbar").click(function() {
-    document.location = "/";
+$(document).ready(function() {
+    $("#navbar").click(function() {
+        document.location = "/";
+    });
 });
+
 
