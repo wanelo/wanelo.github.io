@@ -5,6 +5,7 @@ title: Capistrano 3, You've Changed (Since Version 2)
 
 This blog post represents the standard "We upgraded from software version X to version Y. It was hard! Here's what we learned." Amazingly, even after having been released over 4 months ago, there is still a shortage of quality Capistrano 3 documentation online.
 
+
 The lessons below are ordered in the order I felt they were important, from top to bottom. At the far bottom, you'll find a few recommendations that I think will be useful to anyone who is planning on upgrading.
 
 ## Assume your Capistrano 2 Plugins Won't Work
