@@ -10,7 +10,7 @@ The lessons below are ordered in the order I felt they were important, from top 
 
 ## Assume your Capistrano 2 Plugins Won't Work
 
-Gems that give capistrano extended features were pretty common in version 2. Version 3 took the most important features and merged it into either the `capistrano` or `capistrano-rails` codebase. If you're working with a Ruby on Rails project like we are, you'll find most of the functionality you need within those two gems. This includes asset compilation, bundling, deploying via you're SCM of choice, symlinking of folders as well as standard configuration. There is fantastic documentation about "capistrano 3 flow" [here](http://capistranorb.com/documentation/getting-started/flow/).
+Gems that give capistrano extended features were pretty common in version 2. Version 3 took the most important features and merged it into either the `capistrano` or `capistrano-rails` codebase. If you're working with a Ruby on Rails project like we are, you'll find most of the functionality you need within those two gems. This includes asset compilation, bundling, deploying via your SCM of choice, symlinking of folders as well as standard configuration. There is fantastic documentation about "capistrano 3 flow" [here](http://capistranorb.com/documentation/getting-started/flow/).
 
 ## Flow Has Changed
 
@@ -38,7 +38,7 @@ You can no longer override variables in capistrano using -S. If you try to deplo
 cap deploy -S branch=foo
 ```
 
-you will now receive `invalid option: -S`. The standard practice now is to either pass them in as environment variables. For example, in our deploy.rb file we have this:
+you will now receive `invalid option: -S`. The standard practice now is to pass them in as environment variables. For example, in our deploy.rb file we have this:
 
 ```ruby
 set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
@@ -136,7 +136,7 @@ In the example above, we use the built-in `:filter` setting which filters down a
 
 ## SSHKit Interface
 
-SSHKit is a new gem that capistrano uses under the hood and uses to issue common commands to servers. It contains useful utilities for issuing remote commands during deployment, such as setting environment variables, properly changing directories, and changing users. Since their documentation is so good, I'll refer you to the [SSHKit examples page](https://github.com/capistrano/sshkit/blob/master/EXAMPLES.md) instead of duplicating the code here.
+SSHKit is a new gem that capistrano uses under the hood to issue common commands to servers. It contains useful utilities for issuing remote commands during deployment, such as setting environment variables, properly changing directories, and changing users. Since their documentation is so good, I'll refer you to the [SSHKit examples page](https://github.com/capistrano/sshkit/blob/master/EXAMPLES.md) instead of duplicating the code here.
 
 ## Finding the Capistrano 3 Public Interface
 
