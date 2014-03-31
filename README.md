@@ -11,3 +11,9 @@ cd wanelo.github.io
 bundle
 jekyll server --watch --port 4000
 ```
+
+To run locally with DRAFTS enabled
+
+```bash
+be jekyll server --watch --draft
+```
