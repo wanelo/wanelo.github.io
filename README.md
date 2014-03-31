@@ -9,11 +9,5 @@ To run locally:
 hub clone wanelo/wanelo.github.io
 cd wanelo.github.io
 bundle
-jekyll server --watch --port 4000
-```
-
-To run locally with DRAFTS enabled
-
-```bash
-be jekyll server --watch --draft
+jekyll serve --watch --port 4000
 ```
