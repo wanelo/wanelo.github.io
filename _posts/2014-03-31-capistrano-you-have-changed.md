@@ -1,16 +1,21 @@
 ---
 layout: default
-title: Capistrano 3, You've Changed (Since Version 2)
+title: Capistrano 3, You've Changed! (Since Version 2)
 ---
+**Capistrano** has been around for almost as long as Rails has been around, perhaps short by just a year or so. Back in the early days it introduced much needed sanity into the world of deployment automation, including documenting in code some of the best practices for application deployment, such as the directory layout that included 'releases' folder with the ability to roll back, 'shared' folder with the ability to maintain continuity from release to release. Capistrano was built upon the concept of having roles for application servers. Finally, being written in Ruby, Capistrano always offered remarkable levels of flexibility and customization. So it should not come as a surprise that it became highly popular, and that subsequent infrastructure automation tools like Chef and Puppet include Capistrano-like deployment automation recipes.
 
-This blog post represents the standard "We upgraded from software version X to version Y. It was hard! Here's what we learned." Amazingly, even after having been released over 4 months ago, there is still a shortage of quality Capistrano 3 documentation online.
+These days it is not uncommon to bump into Python, Java, or Scala applications that are deployed to production using Capistrano (which itself is written in ruby).  It's because a lot of the assumptions that Capistrano makes are not language or framework specific.
+
+It's worth noting that in it's entire history of existence, Capistrano have not had an upgrade so dramatically different from the previous version, that in some way it requires rewiring some of your brain neurons to grasp new concepts, new callbacks, and the new mappings between roles and servers, for example.
+
+This blog post represents a typical tale of "We upgraded from version X to version Y. It was hard! But here's what we learned.". And amazingly, despite having been released more than 4 months ago, there is still a massive shortage of quality Capistrano 3 documentation (or upgrade paths) online.  With this post I am hoping to bridge this gap a tiny bit, and perhaps help a few folks out there upgrading their deployment scripts.
 
 
-The lessons below are ordered in the order I felt they were important, from top to bottom. At the far bottom, you'll find a few recommendations that I think will be useful to anyone who is planning on upgrading.
+The lessons below are ordered in the order of importance, from top (highest) to the bottom (lowest). And now, with the introduction out of the way, let's dive straight into it!
 
 ## Assume your Capistrano 2 Plugins Won't Work
 
-Gems that give capistrano extended features were pretty common in version 2. Version 3 took the most important features and merged it into either the `capistrano` or `capistrano-rails` codebase. If you're working with a Ruby on Rails project like we are, you'll find most of the functionality you need within those two gems. This includes asset compilation, bundling, deploying via your SCM of choice, symlinking of folders as well as standard configuration. There is fantastic documentation about "capistrano 3 flow" [here](http://capistranorb.com/documentation/getting-started/flow/).
+Gems that give Capistrano extended features were pretty common in version 2. Version 3 took the most important features and merged it into either the `capistrano` or `capistrano-rails` codebase. If you're working with a Ruby on Rails project like we are, you'll find most of the functionality you need within those two gems. This includes asset compilation, bundling, deploying via your SCM of choice, symlinking of folders as well as standard configuration. There is fantastic documentation about "capistrano 3 flow" [here](http://capistranorb.com/documentation/getting-started/flow/).
 
 ## Flow Has Changed
 
