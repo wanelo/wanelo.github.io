@@ -144,3 +144,6 @@ Common variables that are useful to know can be found in the `Capistrano::DSL::P
 Common setters and getters that are useful for scripts can be found in `Capistrano::DSL::Env`. `set`ting and `fetch`ing configuration is there. As is setting servers and roles, and getting a list of roles and/or servers.
 
 Whew! If you made it this far, I applaud you. As you can see, the capistrano 3 overhaul is a pretty big undertaking with some drastic changes. Thankfully, after upgrading you'll notice that making changes or improvements to your deployments process becomes much easier.
+
+[&mdash; James](http://wanelo.com/james)
+
