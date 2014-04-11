@@ -146,8 +146,8 @@ This process was delayed by the fact that only one person had access to our
 account with the certificate authority. In our list of things to do, we did not
 properly prioritize this nor escalate it loudly enough within the team. In
 retrospect we should have reissued a new cert on Tuesday, then orchestrated the
-roll-out in any number of different ways. Lack of sleep does crazy things
-to a brain.
+roll-out in any number of different ways. Lack of sleep and massive security
+holes make Eric something something...
 
 ### What's next?
 
