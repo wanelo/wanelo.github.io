@@ -111,6 +111,7 @@ of running process we could find in our infrastructure, basically by running
 linked to libssl or had a version statically compiled.
 
 As a part of our investigation, we found the following:
+
 * several binaries that integrate with various monitoring and alerting tools
   were statically compiled with a dangerous version of OpenSSL
 * some of our hosts had a vulnerable version of nodejs installed
