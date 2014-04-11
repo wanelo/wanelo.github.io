@@ -133,11 +133,21 @@ by Strongloop is a great resource for determining if your version of nodejs is
 effected.
 
 This afternoon we had our SSL certificate reissued from our certificate authority.
-We carefully deployed it to production and revoked our old certificate.
+We carefully deployed it to production and asked for our old certificate to be
+revoked. We then distributed the new cert to our CDN.
 
-This was delayed by the fact that only one person had access to our account with
-the certificate authority. In the list of things to do, we did not properly
-prioritize this nor escalate it loudly enough within the team.
+An unintended consequence was that our old certificate was revoked before our
+CDN could deploy the new one, and for a short amount of time in the evening some
+users could not log in via the website. We were able to fairly quickly switch our
+site to serve necessary assets using our own infrastructure, until our CDN could
+roll out the new certificate.
+
+This process was delayed by the fact that only one person had access to our
+account with the certificate authority. In our list of things to do, we did not
+properly prioritize this nor escalate it loudly enough within the team. In
+retrospect we should have reissued a new cert on Tuesday, then orchestrated the
+roll-out in any number of different ways. Lack of sleep does crazy things
+to a brain.
 
 ### What's next?
 
