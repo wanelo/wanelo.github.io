@@ -479,6 +479,16 @@ footer a:hover {
     }
 }
 
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* LAYOUT STYLES */
+    body {
+        font-size: 2em;
+    }
+    header h1 {
+        font-size: 2.5em;
+    }
+}
+
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
 @media only screen and (min-width: 480px) and (max-width: 767px) {
 }
