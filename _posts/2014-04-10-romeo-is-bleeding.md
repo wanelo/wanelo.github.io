@@ -157,13 +157,14 @@ or that we're going to change:
 * find more security lists alerting these sort of problems, and subscribe
 * change all passwords we use to connect to other services
 * roll all keys used to connect to other services
-* hire a security consultant
+* hire a security consultant to review our current state and recommend necessary
+  changes
 * document our learnings in project README files, blog posts and our internal
   wiki
 * more people in the engineering department will have access to or know how to
-  gain accees to our certificate authority
+  gain access to our certificate authority
 
-Personally, a habit I promise to adopt is to drop whatever I'm doing an investigate
+Personally, a habit I promise to adopt is to drop whatever I'm doing and investigate
 on the spot whenever I hear a co-worker talk about any new security vulnerability.
 
 We are fortunate in that at this time Wanelo does not store (nor even pass-through)
