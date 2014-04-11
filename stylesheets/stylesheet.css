@@ -488,6 +488,9 @@ footer a:hover {
         font-size: 2.5em;
         line-height: 1em;
     }
+
+    h2 { font-size: 2.2em;}
+
 }
 
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
