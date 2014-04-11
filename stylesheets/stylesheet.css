@@ -483,6 +483,7 @@ footer a:hover {
     /* LAYOUT STYLES */
     body {
         font-size: 2em;
+        line-height: 2em;
     }
     header h1 {
         font-size: 2.5em;
