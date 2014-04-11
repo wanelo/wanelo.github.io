@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Romeo is Bleeding
+title: Romeo is Bleeding (CVE-2014-0160)
 ---
 
 This week was arguably one of the worst weeks to work
