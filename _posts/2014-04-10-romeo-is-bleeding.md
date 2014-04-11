@@ -70,7 +70,7 @@ At this point I spent a little while verifying that our Ruby installations all
 used dynamic linking of libssl, so that by doing a rolling restart of Unicorn
 our main internal application would no longer be vulnerable. By 2am I was
 reasonably confident that this was the case, understanding that other internal
-applications (and our omnibus Chef installation) was still potentially at risk.
+applications (and our omnibus Chef installation) were still potentially at risk.
 Sometime around 3am I passed out.
 
 ### Tuesday
