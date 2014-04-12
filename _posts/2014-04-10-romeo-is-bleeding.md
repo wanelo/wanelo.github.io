@@ -16,7 +16,7 @@ While there is a huge potential for multiple blog posts regarding our learnings
 from this week, in this post I'll focus on the current state of affairs, as
 well as a timeline of events.
 
-**tl;dr** — wanelo.com **was** effected by Heartbleed. As of 1am April 8, the
+**tl;dr** — wanelo.com **was** affected by Heartbleed. As of 1am April 8, the
 public-facing parts of Wanelo were no longer vulnerable. Through the rest of
 this week we have followed up to ensure that internal components are also secure.
 This afternoon we deployed new SSL certificates and revoked our old ones. We
