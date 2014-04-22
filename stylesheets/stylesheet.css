@@ -57,35 +57,64 @@ body {
     font-size: 1.1em;
     line-height: 1.5;
     background: #fafafa;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     color: #424143;
 }
 
 a, a:visited, a:focus, a:active {
     color: #1997d4;
     font-family: 'Helvetiva-Neue', Helvetica, Arial, sans-serif;
-    font-weight: bold;
-}
-
-a:hover {
-    text-decoration: underline;
 }
 
 
 #navbar {
-    height: 45px;
+	overflow: hidden;
+	bottom: 0px;
+	width: 100%;
+	background-color: #fff;
+	height: 65px;
     border-bottom: 1px solid #DDDDDD;
-    width: 100%;
-    background: #fff;
 }
 
+
+#nav {
+	text-align: center;
+}
+
+.nav-links {
+	width: 225px;
+	margin: 0 auto;
+}
+
+.nav-links a {
+	font-family: 'Helvetiva-Neue', Helvetica, sans-serif;
+	color: #6e6f72;
+	text-transform: uppercase;
+	font-size: 16px;
+	margin-right: 60px;
+	display: inline-block;
+	padding: 23px 0px;
+}
+
+.nav-links .home-active {
+	color: #434143 !important;
+	box-shadow: 0px -7px 0px #ee3473 inset;
+}
+
+.nav-links .jobs-active {
+	color: #434143 !important;
+	box-shadow: 0px -7px 0px #ee3473 inset;
+}
+
+
 #navbar .nav-container {
-    height: 45px;
+    height: 65px;
     width: 80%;
     margin: 0 auto;
     background: #fff url(../images/wanelo_engineering.png) left 0% center no-repeat;
     cursor: pointer;
 }
+
 
 
 header {
@@ -232,7 +261,7 @@ a.button span {
 #view-on-github {
     width: 200px;
     position: absolute;
-    top: -58px;
+    top: -68px;
     left: -200px;
     display: block;
     height: 23px;
@@ -476,8 +505,11 @@ footer a:hover {
         background: #fff url(../images/wanelo_engineering.png) left 0px center no-repeat;
         width: 94%;
         margin: 0 auto;
-    }
 }
+
+	#view-on-github {
+		display: none;
+	}
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     /* LAYOUT STYLES */
@@ -492,6 +524,18 @@ footer a:hover {
     h2 { font-size: 1.5em;}
     h3 { font-size: 1.2em;}
 
+}
+
+#navbar {
+	height: 105px;
+}
+
+.nav-links {
+	padding-top: 50px;
+}
+
+#view-on-github {
+	display: none;
 }
 
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */

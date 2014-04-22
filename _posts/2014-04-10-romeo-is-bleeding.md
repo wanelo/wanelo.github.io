@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Romeo is Bleeding (CVE-2014-0160)
+title: Romeo is Bleeding
 ---
 
 This week was arguably one of the worst weeks to work
 in systems operations in the history of the Internet.
-The revelation of what has been called [Heartbleed](http://heartbleed.com),
+The revelation of what has been called [Heartbleed (CVE-2014-0160)](http://heartbleed.com),
 a bug in OpenSSL that allows attackers to read memory
 from vulnerable servers (and potentially retrieve memory from vulnerable
 clients) has had many administrators scrambling. This bug makes it trivial
