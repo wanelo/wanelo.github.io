@@ -118,9 +118,9 @@ end
 module Wanelo
   module Event
     class Base
-      class &lt;&lt; self
+      class << self
         def transaction
-          @transaction ||= -&gt;(b) {
+          @transaction ||= ->(b) {
             ActiveRecord::Base.transaction do
               b.call
             end
@@ -136,10 +136,10 @@ module Wanelo
       def self.inherited(klass)
         klass.instance_eval do
           include Ventable::Event
-          group :transaction, &amp;Wanelo::Event::Base.transaction
+          group :transaction, &Wanelo::Event::Base.transaction
 
           # Always notify statsd
-          notifies -&gt;(event) { self.metrics.handle_event(event) }
+          notifies ->(event) { self.metrics.handle_event(event) }
         end
       end
     end
