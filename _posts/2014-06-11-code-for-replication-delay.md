@@ -14,7 +14,7 @@ Below graph is an example of how we track replication delay across four separate
 ![Graphing PostgreSQL Replication](/assets/replication_graph.png)
 
 
-We use the open source database adapter [Makara](https://github.com/taskrabbit/makara) in order to manage read/write splitting of SQL queries from Rails. This has worked well for us, but occasionally we get spikes of errors from the website as well as from various Sidekiq workers. If a user creates a new collection, for instance, various Sidekiq jobs need to do work on or using that new collection. During any significant replication lag (even of a minute's worth of data), these jobs would fail with ActiveRecord::NotFound errors. Some pages or API endpoints return 404 or 500 errors, depending on how well various code responds to the missing records. When this first occurred, it caused much hand-wringing among the engineering department and many bug reports from others on the team. Why would a record sometimes be there, and sometimes not?
+We use the open source database adapter [Makara](https://github.com/taskrabbit/makara) in order to manage read/write splitting of SQL queries from Rails. This has worked well for us, but occasionally we get spikes of errors from the website as well as from various Sidekiq workers. If a user creates a new collection, for instance, various Sidekiq jobs need to do work on or using that new collection. During any significant replication lag (even of a minute's worth of data), these jobs would fail with `ActiveRecord::NotFound` errors. Some pages or API endpoints return 404 or 500 errors, depending on how well various code responds to the missing records. When this first occurred, it caused much hand-wringing among the engineering department and many bug reports from others on the team. Why would a record sometimes be there, and sometimes not?
 
 
 ## Replication delay
@@ -42,7 +42,7 @@ There's only so far that this will take you, however.
 
 One of the reasons we appreciate Makara is that it is easy to understand and easy to extend. It also has features such as sticky master built-in. For example, if for any reason a query must be directed at a master database (a write query, for instance), any further requests in that request cycle will go to the master.
 
-In our version of Makara, this is done with some global state that is reset at the end of the response via Rack middleware. We make sure that all of our Sidekiq workers unstick master connections using our own custom base class, but this could also be done with a simple server middleware class.
+In our deployed version of Makara, this is done with some global state that is reset at the end of the response via Rack middleware. We make sure that all of our Sidekiq workers unstick master connections using our own custom base class, but this could also be done with a simple server middleware class.
 
 Assuming that at some point replication delay will cause a situation where a record or records exist on the master but not on a read replica, we can write a simple method that handles these situations:
 
@@ -63,7 +63,7 @@ Where can this go wrong?
 * If the block returns an ActiveRecord::Relation that has not actually executed, your test method may generate count queries. If you put this into a high-load endpoint, thousands of extra count queries could cause new problems.
 * If the block executes SQL, you are not deferring your queries. If you are expecting deferred queries to skip execution due to view caching, you may be surprised.
 * Are there any caching layers in your adapter that could skip re-executing the query?
-* What if :empty? or :blank? are valid responses? Can you even test for replication delay?
+* What if `:empty?` or `:blank?` are valid responses? Can you even test for replication delay?
 
 Sidekiq has a built-in retry queue, so in some cases it may be easier to just let the initial job fail and be retried enough times to ensure that eventually it will succeed when replication catches up. Extraneous errors generate a lot of noise, however, and can train an engineering department to ignore warnings when real problems occur.
 
