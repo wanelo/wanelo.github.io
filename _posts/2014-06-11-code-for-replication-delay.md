@@ -5,6 +5,15 @@ title: "Code for replication delay"
 
 After some recent changes to autovacuum settings on our main PostgreSQL databases, we’ve encountered regular significant replication delay on our four streaming replicas. Why this is happening is an interesting subject for another blog post, but it reminded me of some assumptions built into our codebase, as well as some interesting complications of API design.
 
+## Tracking Replication
+
+One of the key values of our engineering culture is "knowledge" – we want to know as much as possible about what's going on with our production infrastructure.  Replication delay is no exception: we track it using several tools, such as [Nagios](http://www.nagios.org/), for which we use our custom written [nagios plugin for postgresql replication delay](https://github.com/wanelo/nagios-checks/blob/master/check_postgres_replication) (which alerts us when replication falls behind too far), as well as graphing it and displaying this data on a dashboard, using one of our vendor tools [Circonus](http://circonus.com).
+
+Below graph is an example of how we track replication delay across four separate replicas on a logarithmic scale, and overlay it on top of rate of errors coming from the web application and, separately, background jobs.  You see two spikes in replication delays, with second spike also correlating with a minor spike in site errors. The two spikes are related to the delay in replication caused by PostgreSQL deliberately pausing replication on one or more replicas, to allow for a particular query to finish running, and is a configurable behavior.
+
+![Graphing PostgreSQL Replication](/assets/replication_graph.png)
+
+
 We use the open source database adapter [Makara](https://github.com/taskrabbit/makara) in order to manage read/write splitting of SQL queries from Rails. This has worked well for us, but occasionally we get spikes of errors from the website as well as from various Sidekiq workers. If a user creates a new collection, for instance, various Sidekiq jobs need to do work on or using that new collection. During any significant replication lag (even of a minute's worth of data), these jobs would fail with ActiveRecord::NotFound errors. Some pages or API endpoints return 404 or 500 errors, depending on how well various code responds to the missing records. When this first occurred, it caused much hand-wringing among the engineering department and many bug reports from others on the team. Why would a record sometimes be there, and sometimes not?
 
 
