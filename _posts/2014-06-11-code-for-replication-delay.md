@@ -79,3 +79,5 @@ Significant replication delay in databases causes a host of problems. In the lon
 
 There is no way to guarantee that small delays do not happen, however.
 
+-- [Eric](http://wanelo.com/sax "Sax on Wanelo")
+
