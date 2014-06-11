@@ -53,11 +53,13 @@ end
 ```
 
 The implementation of this will be specific to your database adapter, but it needs a few simple steps:
+
 * Call the block
 * Send the test method to the return value of the block
 * If the test method returns true, stick the database adapter to master and re-call the block
 
 Where can this go wrong?
+
 * If the block returns an ActiveRecord::Relation that has not actually executed, your test method may generate count queries. If you put this into a high-load endpoint, thousands of extra count queries could cause new problems.
 * If the block executes SQL, you are not deferring your queries. If you are expecting deferred queries to skip execution due to view caching, you may be surprised.
 * Are there any caching layers in your adapter that could skip re-executing the query?
