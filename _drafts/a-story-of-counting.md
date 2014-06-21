@@ -61,6 +61,7 @@ class UserSavesCountWorker
   # Job is uniqued on user_id
   def perform(user_id)
     user = User.find(user_id)
+    # this performs an actual 'SELECT COUNT(*)...' but only once per job
     user.update_attribute(:saves_count, user.saves.count)
   end
 end
@@ -79,7 +80,7 @@ we only run the count query once. This takes a significant load off our database
 this is applied to all counters everywhere. This process buys us another month until traffic reaches
 another threshold and we're *STILL* runnning too many counts. Time to take a step back to the whiteboard!
 
-## Counts buffered in Redis
+## Counts Buffered in Redis
 
 We realize that we need to take a look at another datastore to hold these counts, even if for a
 temporary amount of time. Redis has two operations that fit the requirement of counting perfectly;
@@ -89,21 +90,32 @@ the database for counts.
 
 ![Awesome Counter Cache Graph Thing](/assets/counter-cache-flow.png)
 
+The above diagram outlines the resulting flow of the data as multiple concurrent users are saving
+products, possibly the same product, and how we are avoiding updating the same product many times
+in a row. 
+
 After we deployed this system, database load caused by counts completely disappeared because we
 simply weren't running any. The story is mostly perfect at this point except for the part where 
 Redis goes away temporarily for any number of reasons (the cloud is not actually always there no 
 matter how much you want it to be, turns out). To solve this issue, we introduced recalculations
 that run every 3 - 6 hours depending on what's being recalculated. These recalculations run full
-count queries to ensure values are completely up to date. We disable recalculations on very popular
+count queries to ensure values are completely up to date. We disabled recalculations on very popular
 objects such as Products as the query is simply to expensive.
 
 All of this work is open-source and can be dropped into an existing Rails app. The buffer datastore
-and job backend can be customized, but we recommend Sidekiq as the job backend and Redis as the buffer
-datastore. We use the same gem in production.
+and background jobs backend can be customized, but we recommend Sidekiq for background jobs, and Redis 
+as the buffer datastore. We use the same gem in production.
 
 Get the gem here: https://github.com/wanelo/counter-cache
 
 Work is on-going and we'll be making constant updates to the gem, as things change in our infrastructure.
 Please feel free to send pull-requests and report issues!
+
+## Future Improvements
+
+One of the possible future features could be providing read-time consistency by returning the sum 
+of the buffered value and the database value, whenever the value needs to be displayed. Right now
+accessing the counter cache column shows the database value, which may be slightly out of date. We haven't
+bumped into a need to show truly real time counters yet, but when we do, we'll be sure to add this feature.
 
 -- [Paul](http://wanelo.com/paul)
