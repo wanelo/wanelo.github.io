@@ -13,7 +13,7 @@ know we need to address this or our site will reach a point and crash.
 
 ## Rails Counter Caches
 
-A well know solution to this problem is provided by Rails in the form of [counter cache](http://railscasts.com/episodes/23-counter-cache-column) feature 
+A well known solution to this problem is provided by Rails in the form of [counter cache](http://railscasts.com/episodes/23-counter-cache-column) feature 
 in ActiveRecord. You are supposed to add the counter cache column, tell Rails what it is, and 
 the rest is taken care of. 
 
