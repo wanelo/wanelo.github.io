@@ -90,7 +90,7 @@ After we deployed this system, database load caused by counts completely disappe
 simply weren't running any. The story is mostly perfect at this point except for the part where 
 Redis goes away temporarily for any number of reasons (the cloud is not actually always there no 
 matter how much you want it to be, turns out). To solve this issue, we introduced recalculations
-that run every 3 - 6 hours depending on the what's being recalculated. These recalculations run full
+that run every 3 - 6 hours depending on what's being recalculated. These recalculations run full
 count queries to ensure values are completely up to date. We disable recalculations on very popular
 objects such as Products as the query is simply to expensive.
 
