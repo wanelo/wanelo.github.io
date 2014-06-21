@@ -37,7 +37,7 @@ Deadlock found when trying to get lock; try restarting transaction:
 UPDATE `users` SET `saves_count` = COALESCE(`saves_count`, 0) + 1 WHERE (`id` = 1067)
 ```
 
-## Back to full counts, but buffered
+## Back to Full Counts, but Buffered
 
 We're now in a situation when the same rows are being updated at the same time or close to the
 same time. We need to solve the locking or else the number of errors being thrown by update or
@@ -80,7 +80,7 @@ we only run the count query once. This takes a significant load off our database
 this is applied to all counters everywhere. This process buys us another month until traffic reaches
 another threshold and we're *STILL* runnning too many counts. Time to take a step back to the whiteboard!
 
-## Counts Buffered in Redis
+## Updating Counts in Redis
 
 We realize that we need to take a look at another datastore to hold these counts, even if for a
 temporary amount of time. Redis has two operations that fit the requirement of counting perfectly;
@@ -92,7 +92,9 @@ the database for counts.
 
 The above diagram outlines the resulting flow of the data as multiple concurrent users are saving
 products, possibly the same product, and how we are avoiding updating the same product many times
-in a row. 
+in a row. We start with a zero value in Redis, and increment it as new products are saved, until a 
+background job flushes it by updating the database value to the sum of previous value, and the one in Redis, 
+and then resetting Redis value back to zero. Rinse repeat.
 
 After we deployed this system, database load caused by counts completely disappeared because we
 simply weren't running any. The story is mostly perfect at this point except for the part where 
