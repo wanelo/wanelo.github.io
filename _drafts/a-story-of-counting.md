@@ -13,8 +13,11 @@ know we need to address this or our site will reach a point and crash.
 
 ## Rails Counter Caches
 
-Through a quick google search, we find the counter_cache feature in ActiveRecord.
-We drop the configuration into the Save model and deploy with a migration that pre-fills
+A well know solution to this problem is provided by Rails in the form of [counter cache](http://railscasts.com/episodes/23-counter-cache-column) feature 
+in ActiveRecord. You are supposed to add the counter cache column, tell Rails what it is, and 
+the rest is taken care of. 
+
+So we drop the configuration into the Save model and deploy with a migration that pre-fills
 all counter_cache values on users.
 
 ```ruby
