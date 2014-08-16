@@ -10,7 +10,7 @@ Objective-C runtime to lazily map API responses into Obj-C objects using RestKit
 <div style="float: right; margin: 20px">
     <img src="/assets/lazy_object_mapping_with_restkit/trending_products.png" alt="Your alt text" title="Trending products grid"/>
 </div>
-
+w
 ## Problem
 
 While developing our internal API for Wanelo's native iOS & Android applications, our approach is to provide not
