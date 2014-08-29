@@ -8,7 +8,7 @@ able to use without any modifications since the first version of Wanelo. In this
 Objective-C runtime to lazily map API responses into Obj-C objects using RestKit's object mapping.
 
 <div style="float: right; margin: 20px">
-    <img src="/assets/lazy_object_mapping_with_restkit/trending_products.png" alt="Your alt text" title="Trending products grid"/>
+    <img src="/assets/lazy_object_mapping_with_restkit/trending-products-sm.png" alt="Trending products grid" title="Trending products grid"/>
 </div>
 
 ## The Problem
