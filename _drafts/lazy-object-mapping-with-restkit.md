@@ -3,33 +3,32 @@ layout: default
 title: Lazy Object Mapping with RestKit
 ---
 
-In Wanelo iOS Application, we use RestKit to consume RESTful APIs. It's one of the few libraries that we've been
-able to use without any modications since the first version of Wanelo. In this post I'll try to explain how we used
+In the Wanelo iOS application, we use RestKit to consume RESTful APIs. It's one of the few libraries that we've been
+able to use without any modifications since the first version of Wanelo. In this post I'll try to explain how we used
 Objective-C runtime to lazily map API responses into Obj-C objects using RestKit's object mapping.
 
 <div style="float: right; margin: 20px">
     <img src="/assets/lazy_object_mapping_with_restkit/trending_products.png" alt="Your alt text" title="Trending products grid"/>
 </div>
 
-## Problem
+## The Problem
 
-While developing our internal API for Wanelo's native iOS & Android applications, our approach is to provide not
-only the data they need for their current state but also for their possible future states. For example in trending
-products view only product image is needed but the API also includes information about each product (e.g. price,
-title) which is displayed only if the client navigates to the detail view of this product. The goal is to not keep
-the user staring into an activity indicator and to reduce number of HTTP calls made which have an overhead
-especially on mobile networks.
+While developing our internal API for Wanelo's native iOS and Android applications, our approach was to provide not
+only the data the apps need for their current state but also data for possible future states. For example, in the Trending
+products view, only the product image is needed but the API also includes information about each product (e.g., price,
+title) which is displayed only if the client navigates to the detail view of the product. The goal is to keep the app feeling fast,
+and to reduce the number of HTTP calls made which have an overhead, especially on mobile networks.
 
 
-However this also meant that the application was blocking the user while it was mapping the information that
-wouldn't be displayed immediately. Especially for large API responses this caused a significant delay. For
-example mapping trending products API response on an iPhone 4s was taking more than 1 second.
+However this also meant that the application was blocking the user while it was mapping information that
+wouldn't be displayed immediately. For large API responses, this caused a significant delay. For
+example, mapping the Trending products API response on an iPhone 4S was taking longer than 1 second.
 
 
 ## Solution
 
-What we needed was a way to map only immediately needed fields of an object and map the rest of the fields only when they are
-accessed. Let's consider how our trending products grid and product class look like:
+What we needed was a way to map only the immediately needed fields of an object, and map the rest of the fields when they are
+accessed. Here's what our Trending products grid and product class looks like:
 
 
 
@@ -42,25 +41,25 @@ accessed. Let's consider how our trending products grid and product class look l
 @end
 ```
 
-It's clear that only the image of each product is being displayed, the rest of the attributes (currency, price and title)
-are not visible to the user. Therefore we only need to map image property of the product object until the user navigates to
-product detail view where title, price and currency are displayed.
+It's clear that while the image for each product is being displayed, the other attributes (title, price and currency)
+are not visible to the user. Therefore we only need to map the image property of the product object until the user navigates
+to the product detail view where title, price and currency are displayed.
 
-While doing this it would be ideal to have no changes to interface of WProduct class so that rest of the codebase stay the
-same. With this requirement, behaviour of WProduct more or less matches a partially loaded object which is [usually named a
-"Ghost" object](http://martinfowler.com/eaaCatalog/lazyLoad.html).
+While doing this it would be ideal to have no changes to the interface of the WProduct class so that rest of the codebase stays the
+same. With this requirement, the behavior of WProduct more or less matches a partially loaded object which is [often called a
+"ghost" object](http://martinfowler.com/eaaCatalog/lazyLoad.html).
 
-We also wanted to keep the option to fully map objects once the response is received since we might have a different UI
-where more properties are displayed. In that case lazy loading objects, just to load them fully after a short time
+We also wanted to keep the option to fully map objects once the response is received, since we might have a different UI
+where more properties are displayed. In this case we are lazily loading objects, because to load them fully after a short time
 wouldn't have any benefits.
 
 With these constraints we decided to implement lazy loading in the following way:
 
-1. There should be a 'Ghost' counterpart of each class which is the lazily loaded version so that original class can be used
-for old behaviour.
+1. There should be a 'ghost' counterpart of each class which is the lazily loaded version so that the original class can be used
+for the old behavior.
 
-2. 'Ghost' version of each class should be substitutable for the actual class so there is no need to change any existing code.
-Subclassing the original class sounded like a good solution for this. So ghost version of product is:
+2. The 'ghost' version of each class should be substitutable for the actual class, so there is no need to change any existing code.
+Subclassing the original class sounded like a good solution for this. So the ghost version of product is:
 
     ```objective-c
     @interface WGhostProduct : WProduct
@@ -94,7 +93,7 @@ implement to provide information about how mapping should be done.
     }
     ```
 
-    If WGhostProduct implemented the same protocol with mappings for only initially loaded properties then we can infer which properties are eagerly loaded and which are lazily loaded
+    If WGhostProduct implemented the same protocol with mappings for only initially loaded properties, then we can infer which properties are eagerly loaded and which are lazily loaded.
 
     ```objective-c
     @implementation WGhostProduct
@@ -105,7 +104,7 @@ implement to provide information about how mapping should be done.
     }
     ```
 
-4. Getter/Setter methods of lazily loaded properties would first fully map the object and then get/set the actual value
+4. Getter/Setter methods of lazily loaded properties would first fully map the object and then get/set the actual value.
 
     ```objective-c
     @implementation WGhostProduct
@@ -126,7 +125,7 @@ implement to provide information about how mapping should be done.
     @end
     ```
 
-    mapFully method can be implemented like
+    The mapFully method can be implemented like this:
 
     ```objective-c
     - (void)mapFully {
@@ -139,7 +138,7 @@ implement to provide information about how mapping should be done.
     }
     ```
 
-    Obviously this implementation requires a mappingSource, we chose to store that in ghost object by using
+    Obviously this implementation requires a mappingSource, so we chose to store that in the ghost object by using the
 mapperDidFinishMapping: mappingOperation:didSetValue:forKeyPath:usingMapping: methods of RKMapperOperationDelegate
 
     ```objective-c
@@ -175,36 +174,36 @@ mapperDidFinishMapping: mappingOperation:didSetValue:forKeyPath:usingMapping: me
     ```
 
 This summarizes our approach to implementing lazy mapping with RestKit. However the code examples I provided can be improved
-a lot by using Obj-C runtime and protocols instead of concrete classes:
+upon quite a bit by using Obj-C runtime and protocols instead of concrete classes:
 
 * Overriding all the getter/setter methods in each ghost class is tedious and error prone. We dynamically added getter/setter
-methods that also fully maps the object using class_addMethod() and then swapped them with regular getter/setter methods
+methods that also fully maps the object using class_addMethod(), and then swapped them with regular getter/setter methods
 using method_exchangeImplementations().
 
-* We defined a WLiteMappable protocol that all ghost classes implement so that while setting mappingResource we don't
+* We defined a WLiteMappable protocol that all ghost classes implement, so that while setting mappingResource we don't
 need to work with concrete classes like WGhostProduct
 
-Overall this solution helped us mapping time for trending products API response from over 1 second to under 250 miliseconds
-with very small amount of changes in the rest of the code base but not without its shortcomings.
+Overall this solution helped us reduce the mapping time for the Trending products API response from over 1 second to under 250 milliseconds
+with a very small number of changes in the rest of the codebase. But it's not without its shortcomings.
 
 ## Caveats
 
-* Mapping of lazily mapped properties is done on the same thread getter/setter methods are called. For most of the cases
-this will be main thread. If mapping takes a long time, it will degrade user's experience.
+* Mapping of lazily mapped properties is done on the same thread that getter/setter methods are called. For most cases
+this will be the main thread. If mapping takes a long time, it will degrade the user's experience.
 
-* Another problem about threading is non thread-safe classes (like NSDateFormatters) that RKObjectMapping uses. We had to insert
+* Another problem with threading is the non-thread-safe classes (like NSDateFormatters) that RKObjectMapping uses. We had to insert
 new instances of date formatters to mapping objects to avoid this problem.
 
-* Adding and swizzling methods in runtime can lead to hard to understand stack traces and painful debugging.
+* Adding and swizzling methods in runtime can lead to inscrutable stack traces and painful debugging.
 
-* Adding and swizzling methods take time, it can slow down application launch time if it is done immediately after application
+* Adding and swizzling methods take time, and it can slow down the application launch time if it is done immediately after the application
 starts.
 
-* If isEqual: and hash methods use lazily mapped properties, using ghost objects in collections may cause many them to be
-fully mapped resulting in long mapping calls in main thread.
+* If isEqual: and hash methods use lazily mapped properties, using ghost objects in collections may cause many of them to be
+fully mapped, resulting in long mapping calls in the main thread.
 
-* Similarly, if UI starts to show a property that is lazily loaded, it is easy to forget to adjust ghost class to move that
-field to eagerly mapped list. This can lead to fully mapping many objects in main thread.
+* Similarly, if the UI starts to show a property that is lazily loaded, it is easy to forget to adjust the ghost class to move that
+field to eagerly mapped list. This can lead to fully mapping many objects in the main thread.
 
 * We don't know if this approach would work if Core Data is used with RestKit.
 
