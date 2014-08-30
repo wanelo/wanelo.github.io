@@ -19,11 +19,9 @@ products view, only the product image is needed but the API also includes inform
 title) which is displayed only if the client navigates to the detail view of the product. The goal is to keep the app feeling fast,
 and to reduce the number of HTTP calls made which have an overhead, especially on mobile networks.
 
-
 However this also meant that the application was blocking the user while it was mapping information that
 wouldn't be displayed immediately. For large API responses, this caused a significant delay. For
 example, mapping the Trending products API response on an iPhone 4S was taking longer than 1 second.
-
 
 ## Solution
 
