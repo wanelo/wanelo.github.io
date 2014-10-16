@@ -1,6 +1,8 @@
 ---
 layout: default
 title: Romeo is Bleeding
+author: Eric Saxby
+author_username: sax
 ---
 
 This week was arguably one of the worst weeks to work
@@ -172,4 +174,4 @@ any truly sensitive personal data. We take the security of our users extremely
 seriously, however, and want to ensure that if there does come a time when sensitive
 data passes through our servers we are in a position to do so with clear conscience.
 
--- [Eric](http://wanelo.com/sax "Sax on Wanelo")
+&mdash; [Eric](http://wanelo.com/sax "Sax on Wanelo")

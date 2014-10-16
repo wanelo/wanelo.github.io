@@ -1,6 +1,8 @@
 ---
 layout: default
 title: Capistrano 3, You've Changed! (Since Version 2)
+author: James Hart
+author_username: james
 ---
 **Capistrano** has been around for almost as long as Rails has been around, perhaps short by just a year or so. Back in the early days it introduced much needed sanity into the world of deployment automation, including documenting in code some of the best practices for application deployment, such as the directory layout that included 'releases' folder with the ability to roll back, 'shared' folder with the ability to maintain continuity from release to release. Capistrano was built upon the concept of having roles for application servers. Finally, being written in Ruby, Capistrano always offered remarkable levels of flexibility and customization. So it should not come as a surprise that it became highly popular, and that subsequent infrastructure automation tools like Chef and Puppet include Capistrano-like deployment automation recipes.
 

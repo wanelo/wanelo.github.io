@@ -1,6 +1,8 @@
 ---
 layout: default
 title: "A Story of Counting"
+author: Paul Henry
+author_username: paul
 ---
 
 One of the most important things people do on Wanelo is – save products. Counting how many people

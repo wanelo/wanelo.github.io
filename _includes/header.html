@@ -9,11 +9,13 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="/stylesheets/monokai_syntax.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print" />
+    <link rel="stylesheet" href="/lightbox/css/lightbox.css"/>
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <script src="/javascripts/jquery-1.11.0.min.js"></script>
     <script src="/javascripts/main.js" async="true"></script>
+    <script src="/lightbox/js/lightbox.min.js"></script>
     <title>{{page.title}}</title>
   </head>
 
@@ -24,17 +26,25 @@
 				<div class="nav-links">
 					<a href="http://building.wanelo.com/" class="home-active">Posts</a></li>
 					<a href="http://wanelo.com/about/play">Jobs</a></li>
+
 				</div>
+                <section id="downloads">
+                  <a href="https://github.com/wanelo" id="view-on-github" class="button"><span>Wanelo on Github</span></a>
+                </section>
             </div>
 		</div>
 	      <div class="inner">
-            <section id="downloads">
-              <a href="https://github.com/wanelo" id="view-on-github" class="button"><span>Wanelo on Github</span></a>
-            </section>
 	        <header>
 	          {% if page.title %}
 	          <h1>{{page.title}}</h1>
 	          {% endif %}
+
+	          {% if page.author %}
+	          <div class="author">
+                Written by <h2><a href="http://wanelo.com/{{page.author_username}}">{{page.author}}</a></h2>
+              </div>
+	          {% endif %}
+
 	        </header>
 	        <section id="main_content">
 

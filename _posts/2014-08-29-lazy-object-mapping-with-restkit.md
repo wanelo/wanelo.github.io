@@ -1,6 +1,8 @@
 ---
 layout: default
 title: Lazy Object Mapping with RestKit
+author: Server Çimen
+author_username: server
 ---
 
 In the Wanelo iOS application, we use RestKit to consume RESTful APIs. It's one of the few libraries that we've been
@@ -205,4 +207,4 @@ field to eagerly mapped list. This can lead to fully mapping many objects in the
 
 * We don't know if this approach would work if Core Data is used with RestKit.
 
--- [Server](http://wanelo.com/server "Server on Wanelo")
+&mdash; [Server](http://wanelo.com/server "Server on Wanelo")

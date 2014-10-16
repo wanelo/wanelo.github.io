@@ -8,10 +8,15 @@ layout: default
   {% for post in site.posts %}
     <li>
       <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-        <span class="date">First posted on {{post.date |  date: "%A, %d %b %Y" }}</span><br /><br />
-        <blockquote>
+        <span class="date">First posted on {{post.date |  date: "%A, %d %b %Y" }}
+        {% if post.author %}
+          by <a href="http://wanelo.com/{{post.author_username}}">{{post.author}}</a>
+        {% endif %}
+        </span>
+        <br /><br />
+        <blockquote class="excerpt">
            {{ post.excerpt }}
-           <a class="read-more" href="{{ post.url }}"> &DoubleLongRightArrow; Full Post </a>
+           <a class="read-more" href="{{ post.url }}"> &LongRightArrow; Full Post </a>
         </blockquote>
 
         <br />

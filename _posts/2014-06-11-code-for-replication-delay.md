@@ -1,6 +1,8 @@
 ---
 layout: default
 title: "Code for replication delay"
+author: Eric Saxby
+author_username: sax
 ---
 
 After some recent changes to autovacuum settings on our main PostgreSQL databases, we’ve encountered regular significant replication delay on our four streaming replicas. Why this is happening is an interesting subject for another blog post, but it reminded me of some assumptions built into our codebase, as well as some interesting complications of API design.
@@ -81,5 +83,5 @@ Significant replication delay in databases causes a host of problems. In the lon
 
 There is no way to guarantee that small delays do not happen, however.
 
--- [Eric](http://wanelo.com/sax "Sax on Wanelo")
+&mdash; [Eric](http://wanelo.com/sax "Sax on Wanelo")
 

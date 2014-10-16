@@ -63,7 +63,7 @@ body {
 
 a, a:visited, a:focus, a:active {
     color: #1997d4;
-    font-family: 'Helvetiva-Neue', Helvetica, Arial, sans-serif;
+/*    font-family: 'Helvetiva-Neue', Helvetica, Arial, sans-serif; */
 }
 
 
@@ -73,7 +73,7 @@ a, a:visited, a:focus, a:active {
 	width: 100%;
 	background-color: #fff;
 	height: 65px;
-    border-bottom: 1px solid #DDDDDD;
+  border-bottom: 1px solid #DDDDDD;
 }
 
 
@@ -86,7 +86,7 @@ a, a:visited, a:focus, a:active {
 	margin: 0 auto;
 }
 
-.nav-links a {
+#navbar .nav-links a {
 	font-family: 'Helvetiva-Neue', Helvetica, sans-serif;
 	color: #6e6f72;
 	text-transform: uppercase;
@@ -94,6 +94,12 @@ a, a:visited, a:focus, a:active {
 	margin-right: 60px;
 	display: inline-block;
 	padding: 23px 0px;
+}
+
+a#view-on-github {
+	font-family: 'Helvetiva-Neue', Helvetica, sans-serif;
+	color: #6e6f72;
+	font-size: 15px;
 }
 
 .nav-links .home-active {
@@ -125,11 +131,12 @@ header {
 }
 
 header h1 {
-    font-family: 'Helvetiva-Neue-Bold', Helvetica, Arial, sans-serif;
-    font-size: 32px;
-    font-weight: bold;
+    font-family: 'HelveticaNeue-Light', Helvetica, Arial, sans-serif;
+    font-size: 23pt;
+    font-weight: normal;
     line-height: 40px;
     color: #6d6b6e;
+		text-align:center;
 }
 
 header h2 {
@@ -139,6 +146,17 @@ header h2 {
     font-weight: normal;
     line-height: 1.3;
     margin-bottom: 30px;
+}
+
+div.author {
+	margin-top: 10px;
+	color: #777;
+ 	  text-align: center;
+}
+
+header div.author h2 {
+	  display: inline-block;
+	 	font-size: 14pt;
 }
 
 header h2.post-head {
@@ -457,6 +475,68 @@ footer a:hover {
 
 .clearfix {
     display: block;
+}
+
+blockquote {
+	background-color: white;
+  margin: 0 0px 20px;
+  padding: 20px 20px 4px 20px;
+  border: 1px solid #444;
+  font-size: 12pt;
+}
+
+blockquote.excerpt {
+	margin: 0 -20px 20px;
+	background-color: #fff !important;
+  border-width: 0px;
+}
+
+blockquote strong {
+  font-weight: normal;
+}
+
+blockquote.excerpt {
+	font-family: inherit;
+}
+
+blockquote.excerpt a {
+  color: inherit;
+}
+blockquote.excerpt strong {
+  color: inherit;
+}
+
+#container .full {
+  width: 100%;
+  text-align: center;
+}
+
+#container .full img {
+  width: 70%;
+  border: 1px solid black;
+}
+
+#container .small img {
+  max-width: 240px;
+  border: 1px solid black;
+  float: left;
+  margin-right: 10px;
+  margin-left: 10px;
+
+  margin-bottom: 20px;
+}
+
+#container img.small-right, img.small-left {
+  max-width: 200px;
+  margin-left: 20px;
+  float: right;
+  border: 1px solid black;
+}
+
+#container img.small-left {
+  margin-left: 0px;
+  margin-right: 20px;
+  float: left;
 }
 
 /* #Media Queries

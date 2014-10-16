@@ -1,6 +1,8 @@
 ---
 layout: default
 title: "Keeping up with Sprout-Wrap"
+author: James Hart
+author_username: james
 ---
 
 Keeping your sprout-wrap recipes and cookbooks up to date is a good thing to do! It keeps your software secure (because bugs like Heartbleed happen), and it allows your developers to enjoy improving their workstation workflow and processes with the most recent software and tools.
@@ -11,7 +13,7 @@ Sprout-wrap has been a moving target lately, and has undergone some recent growi
 
 If you're using the `sprout-osx-base` cookbook, it has been renamed, and this proves to be tricky when there are dependencies from external cookbooks.
 
-Add `sprout-base` to your `Cheffile`, and keep the old `sprout-osx-base` cookbook there for now. 
+Add `sprout-base` to your `Cheffile`, and keep the old `sprout-osx-base` cookbook there for now.
 
 ```ruby
 cookbook 'sprout-base',
@@ -47,7 +49,7 @@ Okay, now that we've managed to do a `libarian-chef install`, try running a `bun
 
 ## Dedicated Cookbooks
 
-You should take a moment to read through the sprout-rubymine::default recipe, as it might have changed slightly.  Dedicated cookbooks allow our recipes to remain simple, the cookbooks dependencies remain more explicit, and the seperation of concerns more defined. It makes testing these cookbooks much easier (you are testing your cookbooks, right?).  In rubymine's case, we can focus on installation and managing it's preferences. Simple! 
+You should take a moment to read through the sprout-rubymine::default recipe, as it might have changed slightly.  Dedicated cookbooks allow our recipes to remain simple, the cookbooks dependencies remain more explicit, and the seperation of concerns more defined. It makes testing these cookbooks much easier (you are testing your cookbooks, right?).  In rubymine's case, we can focus on installation and managing it's preferences. Simple!
 
 Here is a list of the dedicated cookbooks for sprout-wrap that you'll want to be using to be up to date with sprout-wrap development.
 
@@ -84,5 +86,4 @@ cookbook 'sprout-osx-base',
 ## Sprout-wrapping it up
 
 Alright! Nice work. Looks like you're all up to date with sprout-wrap now. Going forward it **will** be much easier to upgrade, thankfully. A simple `librarian-chef update` will definitely be enough to keep your machine's Chef recipes up to date.
-
 
