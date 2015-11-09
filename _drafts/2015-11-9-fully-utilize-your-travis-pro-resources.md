@@ -40,7 +40,9 @@ So, how do we try to split this more evenly?
 
 We can assume that each file within a subdirectory of `spec/` will run in about the same amount of time
 (e.g. `spec/models/a_spec.rb` and `spec/models/b_spec.rb` will be similar in run times relative to one another, as will `spec/features/a_spec.rb` and `spec/features/b_spec.rb`).
-So, we'll iterate over each subdirectory and break them into even groups. Taking the models directory,
+So, we'll iterate over each subdirectory and break them into even groups. Since we want to split into four jobs, we'll take the models directory, split it into four even groups.
+Then we'll take the views directory, and split that into four groups. Similarly with the controllers, and every other subdirectory within `spec/`.
+Those groups will then be added back to our `Rake::FileList` which will then be run by rspec.
 
 
 
