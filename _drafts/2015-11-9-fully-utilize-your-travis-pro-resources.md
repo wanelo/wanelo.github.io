@@ -24,9 +24,11 @@ using all five executors for one build, allowing us to deploy much quicker.
 
 ## Let's make it faster!
 
-At first we initialized a [`Rake::FileList`][rake-file-lists] on the entirely of the `spec/` directory,
-which returned an enumerable that would be easy to use my new favorite method,
-[`#in_groups`][in-groups], to split an array into N even groups. Let's run that on Travis now.
+At first we initialized a [`Rake::FileList`] on the entirety of the `spec/` directory. The `Rake::FileList` class is
+a particularly useful one, allowing a developer to easily manipulate lists of files.
+ Avdi Grimm has a [good blog post][rake-file-lists] that dives into the details of the class.
+The `Rake::FileList` returns an enumerable of all files within the `spec/` directory, which we can then use
+[`#in_groups`][in-groups], to split it into N even groups. Let's run that on Travis now.
 
 ![Lopsided RSpec Builds](/assets/travis_pro_resources/lopsided_RSpec_builds.png)
 
@@ -43,8 +45,6 @@ We can assume that each file within a subdirectory of `spec/` will run in about 
 So, we'll iterate over each subdirectory and break them into even groups. Since we want to split into four jobs, we'll take the models directory, split it into four even groups.
 Then we'll take the views directory, and split that into four groups. Similarly with the controllers, and every other subdirectory within `spec/`.
 Those groups will then be added back to our `Rake::FileList` which will then be run by rspec.
-
-
 
 Simple enough premise, but let's see how this method fairs:
 
