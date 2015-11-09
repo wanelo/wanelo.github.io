@@ -17,8 +17,8 @@ You can see our _impressively_ long 1 hr and 3 minute build below.
 
 ![One RSpec Build](/assets/travis_pro_resources/one_RSpec_build.png)
 
-Impressive, right? Our goal then was to take our exceptionally long RSpec build and split it into four evenly split concurrent jobs, thereby
-using all five executors for one build, allowing us to deploy recently pushed code much quicker.
+Amazing, right? Our goal then was to take our exceptionally long RSpec build and split it into four evenly split concurrent jobs, thereby
+using all five executors for one build, allowing us to deploy much quicker.
 
 
 
@@ -26,7 +26,7 @@ using all five executors for one build, allowing us to deploy recently pushed co
 
 At first we initialized a [`Rake::FileList`][rake-file-lists] on the entirely of the `spec/` directory,
 which returned an enumerable that would be easy to use my new favorite method,
-[`#in_groups`][in-groups], to split an array into N even groups.
+[`#in_groups`][in-groups], to split an array into N even groups. Let's run that on Travis now.
 
 ![Lopsided RSpec Builds](/assets/travis_pro_resources/lopsided_RSpec_builds.png)
 
@@ -40,9 +40,11 @@ So, how do we try to split this more evenly?
 
 We can assume that each file within a subdirectory of `spec/` will run in about the same amount of time
 (e.g. `spec/models/a_spec.rb` and `spec/models/b_spec.rb` will be similar in run times relative to one another, as will `spec/features/a_spec.rb` and `spec/features/b_spec.rb`).
-We iterated over each subdirectory on `spec/` and split those evenly into N groups. So, if the `models/` and `features/` directories contains
-four files each, and we want to split the build into four jobs, each job will run one spec file in each directory. You can
-[see the implementation here][file-list-implementation]. Let's see how this method fairs.
+So, we'll iterate over each subdirectory and break them into even groups. Taking the models directory,
+
+
+
+Simple enough premise, but let's see how this method fairs:
 
 ![Evenly Divided RSpec Builds](/assets/travis_pro_resources/evenly_divided_RSpec_builds.png)
 
@@ -72,12 +74,7 @@ The `script/ci-travis-rspec` file is an executable script which looks like this:
 ```bash
 #!/bin/bash
 
-function error_exit {
-  echo "${PROGNAME}: ${1:-"Unknown Error"}" 1>&2
-  exit 1
-}
-
-xvfb-run -e /dev/stdout bundle exec rake spec:part[$RSPEC_PART,$RSPEC_GROUPS] || error_exit 'RSpec asplode!'
+xvfb-run -e /dev/stdout bundle exec rake spec:part[$RSPEC_PART,$RSPEC_GROUPS]
 ```
 
 And that's it!
@@ -102,4 +99,3 @@ If you've got any questions on how to use it, feel free to poke us in the commen
 [github-issue]: https://github.com/hjhart/rspec-parts/issues
 [rake-file-lists]: http://devblog.avdi.org/2014/04/22/rake-part-2-file-lists/
 [in-groups]: http://apidock.com/rails/ActiveSupport/CoreExtensions/Array/Grouping/in_groups
-[file-list-implementation]: https://github.com/hjhart/rspec-parts/blob/93344d785c6b3e2dcf9d1c0c8c393abef3473ee6/lib/rspec/parts/file_list.rb#L33-L50
