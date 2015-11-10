@@ -61,9 +61,8 @@ body {
     color: #424143;
 }
 
-a, a:visited, a:focus, a:active {
+a, a:visited, a:focus, a:active, a code {
     color: #1997d4;
-/*    font-family: 'Helvetiva-Neue', Helvetica, Arial, sans-serif; */
 }
 
 
