@@ -27,8 +27,8 @@ using all five executors for one build, allowing us to deploy much quicker.
 At first we initialized a `Rake::FileList` on the entirety of the `spec/` directory. The `Rake::FileList` class is
 particularly useful, allowing us to easily manipulate lists of files.
  Avdi Grimm has a [good blog post][rake-file-lists] that dives into the details of the class, and covers it better than I will here.
-The `Rake::FileList` returns an enumerable of all files within the `spec/` directory, which we can then use
-[`#in_groups`][in-groups], to split it into N even groups. Let's run that on Travis now.
+The `Rake::FileList` returns an enumerable of all files within the `spec/` directory, which we can then use with
+[`#in_groups`][in-groups] to split into N even groups. Let's run that on Travis now.
 
 ![Lopsided RSpec Builds](/assets/travis_pro_resources/lopsided_RSpec_builds.png)
 
@@ -51,7 +51,7 @@ Simple enough premise, but let's see how this method fairs:
 ![Evenly Divided RSpec Builds](/assets/travis_pro_resources/evenly_divided_RSpec_builds.png)
 
 As you can see, the job times are more evenly distributed than the last build, and we've reduced the time we need to wait for a single
-build to finish from over an hour and changed to just under 20 minutes.
+build to finish from over an hour and change to just under 20 minutes.
 
 So, how did we do it?
 
