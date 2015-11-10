@@ -15,7 +15,7 @@ We've been subscribed to the [Travis Pro][travis-pro] service for our CI process
 
 You can see our _impressively_ long 1 hr and 3 minute build below.
 
-![One RSpec Build](/images/travis_pro_resources/one_RSpec_build.png)
+![One RSpec Build](/images/travis_pro_resources/one_rspec_build.png)
 
 Amazing, right? Our goal then was to take our exceptionally long RSpec build and split it into four evenly split concurrent jobs, thereby
 using all five executors for one build, allowing us to deploy much quicker.
@@ -30,7 +30,7 @@ particularly useful, allowing us to easily manipulate lists of files.
 The `Rake::FileList` returns an enumerable of all files within the `spec/` directory, which we can then split into N even
 groups with [`#in_groups`][in-groups]. Let's run that on Travis now.
 
-![Lopsided RSpec Builds](/images/travis_pro_resources/lopsided_RSpec_builds.png)
+![Lopsided RSpec Builds](/images/travis_pro_resources/lopsided_rspec_builds.png)
 
 As you can see, it's pretty lopsided. The entire directory for `lib/` and `finder/` specs, which are considerably faster than the rest got grouped
 together and ended up running in eight minutes. Another build that contained the entirety of the `features/` directory took over
@@ -48,7 +48,7 @@ Those groups will then be added back to a master `Rake::FileList` which will the
 
 Simple enough premise, but let's see how this method fairs:
 
-![Evenly Divided RSpec Builds](/images/travis_pro_resources/evenly_divided_RSpec_builds.png)
+![Evenly Divided RSpec Builds](/images/travis_pro_resources/evenly_divided_rspec_builds.png)
 
 As you can see, the job times are more evenly distributed than the last build, and we've reduced the time we need to wait for a single
 build to finish from over an hour and change to just under 20 minutes.
