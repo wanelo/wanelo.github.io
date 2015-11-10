@@ -24,9 +24,9 @@ using all five executors for one build, allowing us to deploy much quicker.
 
 ## Let's make it faster!
 
-At first we initialized a [`Rake::FileList`] on the entirety of the `spec/` directory. The `Rake::FileList` class is
-a particularly useful one, allowing a developer to easily manipulate lists of files.
- Avdi Grimm has a [good blog post][rake-file-lists] that dives into the details of the class.
+At first we initialized a `Rake::FileList` on the entirety of the `spec/` directory. The `Rake::FileList` class is
+particularly useful, allowing us to easily manipulate lists of files.
+ Avdi Grimm has a [good blog post][rake-file-lists] that dives into the details of the class, and covers it better than I will here.
 The `Rake::FileList` returns an enumerable of all files within the `spec/` directory, which we can then use
 [`#in_groups`][in-groups], to split it into N even groups. Let's run that on Travis now.
 
@@ -42,9 +42,9 @@ So, how do we try to split this more evenly?
 
 We can assume that each file within a subdirectory of `spec/` will run in about the same amount of time
 (e.g. `spec/models/a_spec.rb` and `spec/models/b_spec.rb` will be similar in run times relative to one another, as will `spec/features/a_spec.rb` and `spec/features/b_spec.rb`).
-So, we'll iterate over each subdirectory and break them into even groups. Since we want to split into four jobs, we'll take the models directory, split it into four even groups.
-Then we'll take the views directory, and split that into four groups. Similarly with the controllers, and every other subdirectory within `spec/`.
-Those groups will then be added back to our `Rake::FileList` which will then be run by rspec.
+So, we'll iterate over each subdirectory and break them into even groups. Since we want to split into four jobs, we'll take the `models/` directory, split it into four even groups.
+Then we'll take the `views/` directory, and split that into four groups. Similarly with `controllers/`, and every other subdirectory within `spec/`.
+Those groups will then be added back to a master `Rake::FileList` which will then be run by rspec.
 
 Simple enough premise, but let's see how this method fairs:
 
