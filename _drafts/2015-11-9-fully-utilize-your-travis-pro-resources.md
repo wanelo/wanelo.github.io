@@ -27,8 +27,8 @@ using all five executors for one build, allowing us to deploy much quicker.
 At first we initialized a `Rake::FileList` on the entirety of the `spec/` directory. The `Rake::FileList` class is
 particularly useful, allowing us to easily manipulate lists of files.
  Avdi Grimm has a [good blog post][rake-file-lists] that dives into the details of the class, and covers it better than I will here.
-The `Rake::FileList` returns an enumerable of all files within the `spec/` directory, which we can then use with
-[`#in_groups`][in-groups] to split into N even groups. Let's run that on Travis now.
+The `Rake::FileList` returns an enumerable of all files within the `spec/` directory, which we can then split into N even
+groups with [`#in_groups`][in-groups]. Let's run that on Travis now.
 
 ![Lopsided RSpec Builds](/assets/travis_pro_resources/lopsided_RSpec_builds.png)
 
