@@ -1,7 +1,7 @@
 source:      .
 destination: ./_site
-plugins:     ./_plugins
-layouts:     ./_layouts
+plugins_dir:     ./_plugins
+layouts_dir:     ./_layouts
 include:     ['.htaccess']
 exclude:     []
 keep_files:  ['.git','.svn']
@@ -14,8 +14,6 @@ show_drafts: false
 limit_posts: 0
 highlighter: pygments
 
-relative_permalinks: true
-
 permalink:     date
 paginate_path: 'page:num'
 paginate:      nil
@@ -27,8 +25,6 @@ textile_ext:   textile
 excerpt_separator: "\n\n\n"
 
 safe:        false
-watch:       false    # deprecated
-server:      false    # deprecated
 host:        0.0.0.0
 port:        4000
 baseurl:     /
@@ -57,7 +53,7 @@ kramdown:
   entity_output: as_char
   toc_levels: 1..6
   smart_quotes: lsquo,rsquo,ldquo,rdquo
-  use_coderay: false
+  enable_coderay: false
 
   coderay:
     coderay_wrap: div
