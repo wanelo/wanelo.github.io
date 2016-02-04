@@ -53,7 +53,7 @@ We formed the opinion that topic exchanges best suite our needs because of our s
 
 When a consumer process starts, it declares a queue in which messages are retained, and the bindings that determine which messages are placed on the queue. For a topic exchange, the queue bindings include the routing key pattern matcher as described above. After a queue is created, many properties are read-only. Durability is one of those.
 
-Since we do not use replication to ensure persistence of messages on restart, we use queue durability as one way to increase reliability. If RabbitMQ tells a producer that a write was successful to a durable queue, we trust that it has been written to disk. Our public cloud of choice has ZFS local storage with battery-backed write log devices—this gives us a reasonable guarantee that when the file system receives a write, it can be read back later even on an unexpected restart. More than enough guarantee for our use cases.
+Since we do not use replication to ensure persistence of messages on restart, we use queue durability as one way to increase reliability. If RabbitMQ tells a producer that a write was successful to a durable queue, we trust that it has been written to disk. Our public cloud of choice has ZFS local storage with battery-backed write log devices—this gives us a reasonable guarantee that when the file system receives a write, it can be read back later even on an unexpected restart. More than enough guarantee for our use cases, and we can bolster our confidence by including retry logic and data consistency checks within our applications.
 
 ### Fast consumers, asynchronous workers
 
@@ -78,7 +78,7 @@ A Kafka cluster is deployed with a pre-defined number of partitions, and with a 
 
 So... why did we not use Kafka?
 
-For our current purposes, RabbitMQ is more than able to keep up with the scale of our message bus use. We may not have the reliability guarantees of Kafka, nor the available message throughput, but we trade that off by having a much simple infrastructure with understandable failure cases. We also appreciate that we can scale reads on the fly by adding more consumer processes, whereas with Kafka we would need to deploy a new cluster with a different partition count.
+For our current purposes, RabbitMQ is more than able to keep up with the scale of our message bus use. We may not have the reliability guarantees of Kafka, nor the available message throughput, but we trade that off by having a much simpler infrastructure with understandable failure cases. We also appreciate that we can scale reads on the fly by adding more consumer processes, whereas with Kafka we would need to deploy a new cluster with a different partition count.
 
 Even if in the future we deploy a Kafka cluster, RabbitMQ will probably stick around in some capacity. There's no reason not to have both, and we appreciate how little continuing oversight our current setup requires.
 
