@@ -33,7 +33,7 @@ RabbitMQ allows for topologies where some instances serve as primaries and other
 
 For the near term, we’ve chosen to stand up multiple independent instances of RabbitMQ proxied by HAProxy. This removes the need for instances to communicate with each other and simplifies many possible failure scenarios. Producers send messages to HAProxy on localhost, and do not ever receive producer acknowledgements. When we deploy message consumers for an application, we configure a duplicate set of consumers for each RabbitMQ instance. These consumers talk directly with RabbitMQ without a proxy.
 
-When a RabbitMQ instance crashes or its server reboots, producers receive an error and reconnect via HAProxy, attaching to a different instance. Since TCP connections in HAProxy are long-lived, we can expect that processes will stick to a single RabbitMQ instance until they reboot or suffer a connection error. For this reason, if a single RabbitMQ instance restarts we expect it to see negligible load until our message producers restarts.
+When a RabbitMQ instance crashes or its server reboots, producers receive an error and reconnect via HAProxy, attaching to a different instance. Since TCP connections in HAProxy are long-lived, we can expect that processes will stick to a single RabbitMQ instance until they reboot or suffer a connection error. For this reason, if a single RabbitMQ instance restarts we expect it to see negligible load until our message producers restart.
 
 Durability of messages will be done at the queue level, rather than relying on replication. Messages that have been successfully published to the instance but not consumed will have to wait for the instance to recover and consumers to reconnect. This is a risk that we are happy to accept in exchange for the simplicity of the setup.
 
@@ -47,7 +47,7 @@ When messages are published to RabbitMQ, they are published to an exchange. Rabb
 
 We exclusively use topic exchanges for the purposes of inter-application messaging. Messages published to a topic exchange include a routing key, in the dot-delimited format, `arbitrary.routing.information`. When a queue is registered in the exchange, bindings are registered matching one or more routing key. For instance, a queue can be bound to the routing key `arbitrary.routing.*` or `arbitrary.#`. The `*` is a wildcard character matching a single word. The `#` wildcard matches 0 or more words. So, a queue could be bound to `abitrary.routing.*` or `arbitrary.#` to match the example routing key. `arbitrary.*` would match `arbitrary.stuff` but not `arbitrary.things.and.stuff`.
 
-We formed the opinion that topic exchanges best suite our needs because of our strong opinion that producers should not know about consumers. With a fanout exchange, in order to target a message to multiple sets of consumers a producer would need to send a message to multiple targeted exchanges (thus demonstrating implicit knowledge of its consumers). With a topic exchange, the producer sends a message to a single exchange, using a routing key to signal the type of message. If successful, the producer can reasonably expect that the message has been sent to any listening consumers. If no consumers care about the message, then RabbitMQ will discard the message and return a success response to the producer. This is a good thing, as it allows us to deploy new producer code before we finish writing consumer code, without worrying about filling up memory on the RabbitMQ instances.
+We formed the opinion that topic exchanges best suite our needs because of our strong opinion that producers should not know about consumers. With a fanout exchange, in order to target a message to multiple sets of consumers, a producer would need to send a message to multiple targeted exchanges (thus demonstrating implicit knowledge of its consumers). With a topic exchange, the producer sends a message to a single exchange, using a routing key to signal the type of message. If successful, the producer can reasonably expect that the message has been sent to any listening consumers. If no consumers care about the message, then RabbitMQ will discard the message and return a success response to the producer. This is a good thing, as it allows us to deploy new producer code before we finish writing consumer code, without worrying about filling up memory on the RabbitMQ instances.
 
 ### Durable queues
 
@@ -86,7 +86,7 @@ Even if in the future we deploy a Kafka cluster, RabbitMQ will probably stick ar
 
 There are a few major differences between RabbitMQ and SQS. One of the biggest differences is that messages are pushed to RabbitMQ consumers, whereas SQS consumers must poll for messages. This is likely only important when setting up the messaging infrastructure, as once the initial development cost is made in writing and deploying consumer processes it should be fairly transparent to developers.
 
-Another difference with SQS is that the queue is chosen by the message producer. Using only SQS, if a message must target multiple consumers the producer code must be configured to write to each queue. To us, this feels light tight binding between producers and consumers. While SQS can be wired up to SNS to reduce the coupling, it's a little more complicated.
+Another difference with SQS is that the queue is chosen by the message producer. Using only SQS, if a message must target multiple consumers the producer code must be configured to write to each queue. To us, this feels like tight binding between producers and consumers. While SQS can be wired up to SNS to reduce the coupling, it's a little more complicated.
 
 The real reason we did not view SQS as a viable solution for us is that we run our code in the Joyent Public Cloud instead of AWS. Now that I have operated RabbitMQ for the time that I have, I might choose to do so again even for an AWS deployment. Familiarity breeds fraternity... or friendliness... or something.
 
@@ -97,7 +97,7 @@ To be honest, we didn't even consider ZeroMQ. We were specifically looking for a
 
 ## What can go wrong?
 
-Nothing could go wrong, right? It's all rainbows and unicorns in message bus town!
+Nothing could go wrong, right? It's all rainbows and unicorns on the message bus!
 
 No, wait, those are HTTP servers.
 
@@ -113,7 +113,7 @@ We've solved this by writing middleware in our message bus consumer daemons and 
 
 ### Changing queue properties
 
-Once you define a queue in RabbitMQ, you're stuck with it's properties. Want a durable queue, but forgot to set it on queue creation? Unfortunately, that queue is permanently non-durable, even if you've already changed your code and everything now appears to be working. The only way forward is to create a new, durable queue, and delete the old queue.
+Once you define a queue in RabbitMQ, you're stuck with its properties. Want a durable queue, but forgot to set it on queue creation? Unfortunately, that queue is permanently non-durable, even if you've already changed your code and everything now appears to be working. The only way forward is to create a new, durable queue, and delete the old queue.
 
 ### Renaming queues
 
@@ -127,7 +127,7 @@ One thing we've found is that once the infrastructure is there, it's very easy t
 
 Naming queues based entirely on purpose can also obfuscate the location of consumer code. You've just received a critical alert saying that the `product.created` queue is backed up. What application owns that queue?
 
-We've found that it's much easier to name queues based on our consumer applications. Instead of `product.created`, we'll name our queues `product-feeds.product.created` or `website.product.created`. This greatly reduces confusion, and renders queue names collisions extremely unlikely.
+We've found that it's much easier to name queues based on our consumer applications. Instead of `product.created`, we'll name our queues `product-feeds.product.created` or `website.product.created`. This greatly reduces confusion, and renders queue name collisions extremely unlikely.
 
 ### Consistent grammar in routing keys and queue names
 
