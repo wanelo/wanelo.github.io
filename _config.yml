@@ -12,7 +12,7 @@ encoding:    utf-8
 future:      true
 show_drafts: false
 limit_posts: 0
-highlighter: pygments
+highlighter: rouge
 
 permalink:     date
 paginate_path: 'page:num'
